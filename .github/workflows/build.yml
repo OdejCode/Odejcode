@@ -1,0 +1,50 @@
+name: Build Odejcode for All Platforms
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [macos, windows, linux, android]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build for ${{ matrix.platform }}
+        run: |
+          if [ "${{ matrix.platform }}" = "macos" ]; then
+            flutter build macos --release
+          elif [ "${{ matrix.platform }}" = "windows" ]; then
+            flutter build windows --release
+          elif [ "${{ matrix.platform }}" = "linux" ]; then
+            flutter build linux --release
+          elif [ "${{ matrix.platform }}" = "android" ]; then
+            flutter build apk --release --split-per-abi
+          fi
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: odejcode-${{ matrix.platform }}
+          path: |
+            build/macos/Build/Products/Release/*.app
+            build/windows/runner/Release/*.exe
+            build/linux/x64/release/bundle/
+            build/app/outputs/flutter-apk/*-release.apk
+          if-no-files-found: warn
