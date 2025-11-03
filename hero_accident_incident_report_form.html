@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident and Incident Report Form - HERO</title>
+    <style>
+        /* 
+        TO DOWNLOAD AS WORD/PDF:
+        1. Open this HTML file in Google Chrome
+        2. Press Ctrl+P (Cmd+P on Mac)
+        3. Select "Save as PDF" or use "Microsoft Print to PDF"
+        4. For Word: Save as PDF first, then open PDF in Word and "Save As" .docx
+        5. Alternatively: Use https://www.adobe.com/acrobat/online/html-to-pdf.html
+        */
+
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11.5pt;
+            line-height: 1.35;
+            color: #1f2937;
+            background: white;
+            margin: 0;
+            padding: 0.25cm;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 0.5cm;
+            border: 0.25cm solid #1e3a8a;
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            position: relative;
+        }
+
+        .logo-top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-left img {
+            width: 80px;
+            height: auto;
+            display: block;
+        }
+
+        .main-title {
+            font-size: 22.5pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16.5pt;
+            color: #7c3aed;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .event-details {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .event-details h3 {
+            font-size: 13.5pt;
+            margin-bottom: 10px;
+            color: #4f46e5;
+        }
+
+        .event-details p {
+            margin: 5px 0;
+            font-size: 10.5pt;
+        }
+
+        .confidentiality {
+            text-align: center;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 10px;
+            border: 2px solid #fecaca;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .section-header {
+            font-size: 15.5pt;
+            font-weight: bold;
+            color: #1e40af;
+            margin: 25px 0 12px 0;
+            padding-bottom: 4px;
+            border-bottom: 3px solid #7c3aed;
+            page-break-after: avoid;
+        }
+
+        .subsection-header {
+            font-size: 13.5pt;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 18px 0 8px 0;
+            page-break-after: avoid;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .form-col-2 {
+            flex: 2;
+        }
+
+        .form-col-3 {
+            flex: 3;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1f2937;
+            font-size: 11pt;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11pt;
+            min-height: 24px;
+            background: white;
+        }
+
+        .input-field-large {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .input-field-xlarge {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .table-container {
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 10pt;
+        }
+
+        th,
+        td {
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f3f4f6;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .signature-section {
+            margin: 30px 0;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            page-break-inside: avoid;
+        }
+
+        .signature-box {
+            margin: 20px 0;
+        }
+
+        .signature-line {
+            border-top: 1px solid #1f2937;
+            margin-top: 40px;
+            padding-top: 5px;
+        }
+
+        .important {
+            background-color: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .warning {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .no-break {
+            page-break-inside: avoid;
+        }
+
+        @media print {
+            .input-field {
+                border: none;
+                border-bottom: 1px solid #1f2937;
+                background: transparent;
+            }
+
+            .input-field:focus {
+                outline: none;
+            }
+        }
+
+        .submit-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f0f9ff;
+            border: 2px solid #1e40af;
+            border-radius: 8px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .submit-button {
+            background: #1e40af;
+            color: white;
+            padding: 15px 40px;
+            font-size: 16pt;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "Times New Roman", Times, serif;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #1e3a8a;
+        }
+
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .submit-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .submit-status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+
+        .submit-status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        .submit-status.sending {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+        }
+    </style>
+    <!-- 
+    SETUP INSTRUCTIONS FOR FORM SUBMISSION:
+    
+    1. Create a free account at https://www.emailjs.com/
+    
+    2. Create an Email Service:
+       - Go to Email Services in your dashboard
+       - Connect your email service (Gmail, Outlook, etc.)
+       - Note your Service ID
+    
+    3. Create an Email Template:
+       - Go to Email Templates
+       - Create a new template
+       - Use these variables in your template:
+         * {{to_email}} - Recipient email
+         * {{subject}} - Email subject
+         * {{message}} - Form data message
+       - Note your Template ID
+    
+    4. Get your Public Key:
+       - Go to Account > API Keys
+       - Copy your Public Key
+    
+    5. Update the JavaScript below with your actual values:
+       - Replace "YOUR_PUBLIC_KEY" with your Public Key
+       - Replace "YOUR_SERVICE_ID" with your Service ID
+       - Replace "YOUR_TEMPLATE_ID" with your Template ID
+       - Replace "your-email@example.com" with your email address
+    -->
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // ============================================================================
+        // EMAILJS CONFIGURATION - FOLLOW THESE STEPS TO FIND YOUR VALUES:
+        // ============================================================================
+        // 
+        // STEP 1: FIND YOUR PUBLIC KEY
+        //   1. In EmailJS dashboard, click "Account" (bottom of left sidebar)
+        //   2. Click "API Keys"
+        //   3. Copy the "Public Key" (long string of letters/numbers)
+        //   4. Paste it below, replacing "YOUR_PUBLIC_KEY"
+        //
+        // STEP 2: FIND YOUR SERVICE ID
+        //   1. Click "Email Services" in left sidebar
+        //   2. Click on your service (e.g., "Gmail")
+        //   3. Look at the browser URL - it contains: service_xxxxx
+        //   4. OR: Check the Config Service dialog - you saw service_0rkbt9s earlier
+        //   5. Paste it below, replacing "YOUR_SERVICE_ID"
+        //
+        // STEP 3: FIND YOUR TEMPLATE ID
+        //   1. Click "Email Templates" in left sidebar
+        //   2. Click on your template (the one with {{message}})
+        //   3. Look at the browser URL - it contains: template_xxxxx
+        //   4. OR: Look for "Template ID" on the template page
+        //   5. Paste it below, replacing "YOUR_TEMPLATE_ID"
+        //
+        // STEP 4: UPDATE YOUR EMAIL ADDRESS
+        //   Replace 'your-email@example.com' with your actual email (e.g., emryys93@gmail.com)
+        //
+        // ============================================================================
+
+        // Initialize EmailJS - Public Key configured
+        (function () {
+            emailjs.init("wkRpnIaNL7HHzVTy-");  // Your EmailJS Public Key
+        })();
+    </script>
+</head>
+
+<body>
+    <form id="incidentReportForm" onsubmit="submitForm(event)">
+        <div class="container">
+            <!-- COVER PAGE -->
+            <div class="header">
+                <div class="logo-top-left">
+                    <img src="WhatsApp Image 2025-10-21 at 11.03.22.jpeg" alt="Logo">
+                </div>
+                <h1 class="main-title">Accident and Incident Report Form</h1>
+                <h2 class="subtitle">HERO Immersive Interactive Experience</h2>
+                <div class="event-details">
+                    <h3>Report Information</h3>
+                    <p><strong>Location:</strong> Yas Island, Abu Dhabi (near Etihad Arena)</p>
+                    <p><strong>Form Reference:</strong> AIR-HERO-[REFERENCE NUMBER]</p>
+                    <p><strong>Report Date:</strong> [DD/MM/YYYY]</p>
+                </div>
+            </div>
+
+            <div class="confidentiality">
+                CONFIDENTIAL<br>
+                Theory Eleven Entertainment — Accident and Incident Report (HERO)
+            </div>
+
+            <!-- SETUP INSTRUCTIONS (Visible on page) -->
+            <div class="warning" style="margin: 20px 0; background: #eff6ff; border-left: 4px solid #3b82f6;">
+                <p><strong>📧 Form Submission Setup Required:</strong></p>
+                <p style="margin-top: 10px;">To receive form submissions via email, you need to configure EmailJS:</p>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Create a free account at <a href="https://www.emailjs.com/" target="_blank"
+                            style="color: #2563eb; text-decoration: underline;">https://www.emailjs.com/</a></li>
+                    <li>Set up Email Service and Template in your EmailJS dashboard</li>
+                    <li>Get your Public Key, Service ID, and Template ID</li>
+                    <li>Update the JavaScript code in this file (see comments in the HTML head section)</li>
+                </ol>
+                <p style="margin-top: 10px; font-size: 10pt; color: #64748b;"><em>Once configured, all form submissions
+                        will be sent directly to your email.</em></p>
+            </div>
+
+            <!-- PAGE 2: INCIDENT DETAILS -->
+            <div class="page-break"></div>
+            <div class="section-header">1. INCIDENT DETAILS</div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Report Reference Number:</label>
+                        <input type="text" name="reportReference" class="input-field" placeholder="AIR-HERO-YYYY-XXXX">
+                    </div>
+                    <div class="form-col">
+                        <label>Date of Incident:</label>
+                        <input type="text" name="incidentDate" class="input-field" placeholder="DD/MM/YYYY">
+                    </div>
+                    <div class="form-col">
+                        <label>Time of Incident:</label>
+                        <input type="text" name="incidentTime" class="input-field" placeholder="HH:MM (24hr)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Exact Location of Incident:</label>
+                        <input type="text" name="incidentLocation" class="input-field"
+                            placeholder="e.g., Hawkins Plaza, Room 3, Technical Control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Type of Incident:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-accident" name="incident-type">
+                        <label for="type-accident" style="font-weight: normal;">Accident (injury/damage)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-nearmiss" name="incident-type">
+                        <label for="type-nearmiss" style="font-weight: normal;">Near Miss</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-property" name="incident-type">
+                        <label for="type-property" style="font-weight: normal;">Property Damage</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-medical" name="incident-type">
+                        <label for="type-medical" style="font-weight: normal;">Medical Emergency</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-security" name="incident-type">
+                        <label for="type-security" style="font-weight: normal;">Security Incident</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-fire" name="incident-type">
+                        <label for="type-fire" style="font-weight: normal;">Fire/Smoke</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="type-other" name="incident-type">
+                        <label for="type-other" style="font-weight: normal;">Other (specify below)</label>
+                    </div>
+                </div>
+                <input type="text" name="incidentTypeOther" class="input-field" placeholder="If other, please specify"
+                    style="margin-top: 8px;">
+            </div>
+
+            <div class="form-group">
+                <label>Severity Classification:</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="severity-catastrophic" name="severity">
+                        <label for="severity-catastrophic" style="font-weight: normal;">Catastrophic (Fatality/Permanent
+                            Disability)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="severity-major" name="severity">
+                        <label for="severity-major" style="font-weight: normal;">Major (Serious
+                            Injury/Hospitalization)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="severity-moderate" name="severity">
+                        <label for="severity-moderate" style="font-weight: normal;">Moderate (Medical Treatment
+                            Required)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="severity-minor" name="severity">
+                        <label for="severity-minor" style="font-weight: normal;">Minor (First Aid Only)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="severity-negligible" name="severity">
+                        <label for="severity-negligible" style="font-weight: normal;">Negligible (Near Miss/No
+                            Injury)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">2. PERSON(S) INVOLVED</div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Total Number of Persons Involved:</label>
+                        <input type="text" name="totalPersonsInvolved" class="input-field" placeholder="Number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Name</th>
+                            <th style="width: 12%;">Age</th>
+                            <th style="width: 15%;">Role (Guest/Staff/Contractor)</th>
+                            <th style="width: 15%;">Contact Number</th>
+                            <th style="width: 18%;">Nature of Involvement</th>
+                            <th style="width: 25%;">Injury/Status (if applicable)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="person1Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person1Age" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person1Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person1Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person1Involvement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person1Status" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="person2Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person2Age" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person2Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person2Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person2Involvement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person2Status" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="person3Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person3Age" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person3Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person3Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person3Involvement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="person3Status" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-header">3. DESCRIPTION OF INCIDENT</div>
+
+            <div class="form-group">
+                <label>Detailed Description of What Happened:</label>
+                <textarea name="detailedDescription" class="input-field input-field-xlarge"
+                    placeholder="Provide a detailed, factual account of the incident including sequence of events, conditions, and any relevant factors."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What Was the Person(s) Doing at the Time of the Incident?</label>
+                <textarea name="personActivity" class="input-field input-field-large"
+                    placeholder="Describe the activity or task being performed."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Immediate Cause(s) of the Incident:</label>
+                <textarea name="immediateCause" class="input-field input-field-large"
+                    placeholder="What directly caused the incident to occur?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Underlying/Root Cause(s):</label>
+                <textarea name="rootCause" class="input-field input-field-large"
+                    placeholder="What were the underlying factors that contributed to the incident? (e.g., training, equipment, procedures, environment)"></textarea>
+            </div>
+
+            <!-- PAGE 3: CONTINUATION -->
+            <div class="page-break"></div>
+            <div class="section-header">4. INJURY DETAILS (If Applicable)</div>
+
+            <div class="form-group">
+                <label>Nature of Injury:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-cut" name="injury-type">
+                        <label for="injury-cut" style="font-weight: normal;">Cut/Laceration</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-bruise" name="injury-type">
+                        <label for="injury-bruise" style="font-weight: normal;">Bruise/Contusion</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-fracture" name="injury-type">
+                        <label for="injury-fracture" style="font-weight: normal;">Fracture/Broken Bone</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-burn" name="injury-type">
+                        <label for="injury-burn" style="font-weight: normal;">Burn</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-sprain" name="injury-type">
+                        <label for="injury-sprain" style="font-weight: normal;">Sprain/Strain</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-shock" name="injury-type">
+                        <label for="injury-shock" style="font-weight: normal;">Shock/Electrical</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-eye" name="injury-type">
+                        <label for="injury-eye" style="font-weight: normal;">Eye Injury</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-head" name="injury-type">
+                        <label for="injury-head" style="font-weight: normal;">Head Injury</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-respiratory" name="injury-type">
+                        <label for="injury-respiratory" style="font-weight: normal;">Respiratory Difficulty</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-medical" name="injury-type">
+                        <label for="injury-medical" style="font-weight: normal;">Medical Emergency (Cardiac,
+                            etc.)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="injury-other" name="injury-type">
+                        <label for="injury-other" style="font-weight: normal;">Other</label>
+                    </div>
+                </div>
+                <input type="text" name="injuryTypeOther" class="input-field" placeholder="If other, please specify"
+                    style="margin-top: 8px;">
+            </div>
+
+            <div class="form-group">
+                <label>Body Part Affected:</label>
+                <input type="text" name="bodyPartAffected" class="input-field"
+                    placeholder="e.g., Left leg, Right hand, Head, etc.">
+            </div>
+
+            <div class="form-group">
+                <label>Treatment Provided:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="treatment-firstaid" name="treatment">
+                        <label for="treatment-firstaid" style="font-weight: normal;">First Aid on Site</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="treatment-hospital" name="treatment">
+                        <label for="treatment-hospital" style="font-weight: normal;">Transported to Hospital</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="treatment-emergency" name="treatment">
+                        <label for="treatment-emergency" style="font-weight: normal;">Emergency Services Called</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="treatment-none" name="treatment">
+                        <label for="treatment-none" style="font-weight: normal;">No Treatment Required</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Hospital/Medical Facility (if applicable):</label>
+                        <input type="text" name="hospitalFacility" class="input-field" placeholder="Name of facility">
+                    </div>
+                    <div class="form-col">
+                        <label>Ambulance Called:</label>
+                        <div class="radio-group" style="margin-top: 0;">
+                            <div class="radio-item">
+                                <input type="radio" id="ambulance-yes" name="ambulance">
+                                <label for="ambulance-yes" style="font-weight: normal;">Yes</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ambulance-no" name="ambulance">
+                                <label for="ambulance-no" style="font-weight: normal;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">5. WITNESSES</div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Name</th>
+                            <th style="width: 20%;">Role/Position</th>
+                            <th style="width: 20%;">Contact Number</th>
+                            <th style="width: 35%;">Statement/Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="witness1Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness1Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness1Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness1Statement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="witness2Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness2Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness2Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness2Statement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="witness3Name" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness3Role" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness3Contact" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                            <td><input type="text" name="witness3Statement" class="input-field"
+                                    style="border: none; width: 100%;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-header">6. ENVIRONMENTAL CONDITIONS</div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Lighting Conditions:</label>
+                        <div class="radio-group" style="margin-top: 0;">
+                            <div class="radio-item">
+                                <input type="radio" id="light-normal" name="lighting">
+                                <label for="light-normal" style="font-weight: normal;">Normal</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="light-dim" name="lighting">
+                                <label for="light-dim" style="font-weight: normal;">Dim/Low Light</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="light-dark" name="lighting">
+                                <label for="light-dark" style="font-weight: normal;">Dark</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="light-emergency" name="lighting">
+                                <label for="light-emergency" style="font-weight: normal;">Emergency Lighting</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <label>Weather Conditions (if external area):</label>
+                        <input type="text" name="weatherConditions" class="input-field"
+                            placeholder="e.g., Clear, Rainy, Hot">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Other Environmental Factors:</label>
+                <textarea name="otherEnvironmentalFactors" class="input-field input-field-large"
+                    placeholder="e.g., Fog/haze effects, temperature, noise levels, crowd density, etc."></textarea>
+            </div>
+
+            <!-- PAGE 4: CONTINUATION -->
+            <div class="page-break"></div>
+            <div class="section-header">7. EQUIPMENT/MATERIALS INVOLVED</div>
+
+            <div class="form-group">
+                <label>Was Equipment or Materials Involved?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="equip-yes" name="equipment">
+                        <label for="equip-yes" style="font-weight: normal;">Yes</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="equip-no" name="equipment">
+                        <label for="equip-no" style="font-weight: normal;">No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>If Yes, Describe Equipment/Materials Involved:</label>
+                <textarea name="equipmentDescription" class="input-field input-field-large"
+                    placeholder="Include brand, model, serial number if available"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Condition of Equipment Before Incident:</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="condition-good" name="equip-condition">
+                        <label for="condition-good" style="font-weight: normal;">Good/Working</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="condition-faulty" name="equip-condition">
+                        <label for="condition-faulty" style="font-weight: normal;">Faulty/Damaged</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="condition-unknown" name="equip-condition">
+                        <label for="condition-unknown" style="font-weight: normal;">Unknown</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">8. IMMEDIATE ACTIONS TAKEN</div>
+
+            <div class="form-group">
+                <label>What Immediate Actions Were Taken at the Scene?</label>
+                <textarea name="immediateActions" class="input-field input-field-large"
+                    placeholder="Describe first aid, evacuation, isolation, notification, etc."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Emergency Services Notified:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service-police" name="emergency-services">
+                        <label for="service-police" style="font-weight: normal;">Police</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service-fire" name="emergency-services">
+                        <label for="service-fire" style="font-weight: normal;">Fire/Rescue</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service-ambulance" name="emergency-services">
+                        <label for="service-ambulance" style="font-weight: normal;">Ambulance</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service-civil" name="emergency-services">
+                        <label for="service-civil" style="font-weight: normal;">Civil Defense</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service-none" name="emergency-services">
+                        <label for="service-none" style="font-weight: normal;">None Required</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Time Emergency Services Called:</label>
+                        <input type="text" name="emergencyServicesCalledTime" class="input-field" placeholder="HH:MM">
+                    </div>
+                    <div class="form-col">
+                        <label>Time Emergency Services Arrived:</label>
+                        <input type="text" name="emergencyServicesArrivedTime" class="input-field" placeholder="HH:MM">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">9. PROPERTY DAMAGE (If Applicable)</div>
+
+            <div class="form-group">
+                <label>Was There Property Damage?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="damage-yes" name="property-damage">
+                        <label for="damage-yes" style="font-weight: normal;">Yes</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="damage-no" name="property-damage">
+                        <label for="damage-no" style="font-weight: normal;">No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description of Property Damage:</label>
+                <textarea name="propertyDamageDescription" class="input-field input-field-large"
+                    placeholder="Describe what was damaged, extent of damage, estimated cost"></textarea>
+            </div>
+
+            <div class="section-header">10. CONTRIBUTING FACTORS</div>
+
+            <div class="form-group">
+                <label>Select All Contributing Factors (if applicable):</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-training" name="contributing">
+                        <label for="factor-training" style="font-weight: normal;">Insufficient Training</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-procedure" name="contributing">
+                        <label for="factor-procedure" style="font-weight: normal;">Lack of/Inadequate Procedures</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-supervision" name="contributing">
+                        <label for="factor-supervision" style="font-weight: normal;">Lack of Supervision</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-equipment" name="contributing">
+                        <label for="factor-equipment" style="font-weight: normal;">Equipment Failure/Malfunction</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-maintenance" name="contributing">
+                        <label for="factor-maintenance" style="font-weight: normal;">Poor Maintenance</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-environment" name="contributing">
+                        <label for="factor-environment" style="font-weight: normal;">Environmental Conditions</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-crowd" name="contributing">
+                        <label for="factor-crowd" style="font-weight: normal;">Crowd Management Issue</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-fatigue" name="contributing">
+                        <label for="factor-fatigue" style="font-weight: normal;">Fatigue/Overwork</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-distraction" name="contributing">
+                        <label for="factor-distraction" style="font-weight: normal;">Distraction</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="factor-other" name="contributing">
+                        <label for="factor-other" style="font-weight: normal;">Other</label>
+                    </div>
+                </div>
+                <input type="text" name="contributingFactorOther" class="input-field"
+                    placeholder="If other, please specify" style="margin-top: 8px;">
+            </div>
+
+            <!-- PAGE 5: CONTINUATION -->
+            <div class="page-break"></div>
+            <div class="section-header">11. PREVENTIVE MEASURES & CORRECTIVE ACTIONS</div>
+
+            <div class="form-group">
+                <label>Immediate Corrective Actions Taken:</label>
+                <textarea name="immediateCorrectiveActions" class="input-field input-field-large"
+                    placeholder="Actions taken immediately to prevent recurrence"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Recommended Long-Term Preventive Measures:</label>
+                <textarea name="preventiveMeasures" class="input-field input-field-xlarge"
+                    placeholder="Recommendations to prevent similar incidents in the future (e.g., training, procedures, equipment, signage)"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Action Items & Responsibilities:</label>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Action Required</th>
+                                <th style="width: 25%;">Responsible Person</th>
+                                <th style="width: 15%;">Target Date</th>
+                                <th style="width: 20%;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="actionItem1" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionResponsible1" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionDate1" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionStatus1" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="actionItem2" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionResponsible2" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionDate2" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionStatus2" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="actionItem3" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionResponsible3" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionDate3" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionStatus3" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="actionItem4" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionResponsible4" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionDate4" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                                <td><input type="text" name="actionStatus4" class="input-field"
+                                        style="border: none; width: 100%;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section-header">12. REGULATORY NOTIFICATION</div>
+
+            <div class="form-group">
+                <label>Regulatory Authorities Notified:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-adosh" name="regulatory">
+                        <label for="reg-adosh" style="font-weight: normal;">ADOSH (Abu Dhabi Occupational Safety &
+                            Health)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-civil" name="regulatory">
+                        <label for="reg-civil" style="font-weight: normal;">Civil Defense</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-police" name="regulatory">
+                        <label for="reg-police" style="font-weight: normal;">Police</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-other" name="regulatory">
+                        <label for="reg-other" style="font-weight: normal;">Other</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-none" name="regulatory">
+                        <label for="reg-none" style="font-weight: normal;">None Required</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Date Notified:</label>
+                        <input type="text" name="regulatoryDateNotified" class="input-field" placeholder="DD/MM/YYYY">
+                    </div>
+                    <div class="form-col">
+                        <label>Time Notified:</label>
+                        <input type="text" name="regulatoryTimeNotified" class="input-field" placeholder="HH:MM">
+                    </div>
+                    <div class="form-col">
+                        <label>Reference Number (if provided):</label>
+                        <input type="text" name="regulatoryReferenceNumber" class="input-field" placeholder="Reference">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">13. ATTACHMENTS & EVIDENCE</div>
+
+            <div class="form-group">
+                <label>Check All Attachments Included:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-photos" name="attachments">
+                        <label for="attach-photos" style="font-weight: normal;">Photographs</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-diagrams" name="attachments">
+                        <label for="attach-diagrams" style="font-weight: normal;">Diagrams/Sketches</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-medical" name="attachments">
+                        <label for="attach-medical" style="font-weight: normal;">Medical Reports</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-witness" name="attachments">
+                        <label for="attach-witness" style="font-weight: normal;">Witness Statements</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-cctv" name="attachments">
+                        <label for="attach-cctv" style="font-weight: normal;">CCTV Footage</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="attach-other" name="attachments">
+                        <label for="attach-other" style="font-weight: normal;">Other Documents</label>
+                    </div>
+                </div>
+                <input type="text" name="attachmentsOther" class="input-field" placeholder="List other attachments"
+                    style="margin-top: 8px;">
+            </div>
+
+            <div class="important">
+                <p><strong>Note:</strong> All photographs, diagrams, and supporting documents should be clearly labeled
+                    and attached to this report. Original documents should be retained for official records.</p>
+            </div>
+
+            <!-- PAGE 6: SIGNATURES -->
+            <div class="page-break"></div>
+            <div class="section-header">14. REPORT PREPARATION</div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Report Prepared By:</label>
+                        <input type="text" name="preparedByName" class="input-field" placeholder="Name">
+                    </div>
+                    <div class="form-col">
+                        <label>Position/Title:</label>
+                        <input type="text" name="preparedByPosition" class="input-field" placeholder="Position">
+                    </div>
+                    <div class="form-col">
+                        <label>Date Prepared:</label>
+                        <input type="text" name="preparedByDate" class="input-field" placeholder="DD/MM/YYYY">
+                    </div>
+                </div>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <label>Prepared By Signature:</label>
+                    <div class="signature-line">
+                        <p style="margin-top: 5px; font-size: 10pt;">Signature</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">15. REVIEW & APPROVAL</div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Reviewed By:</label>
+                        <input type="text" name="reviewedByName" class="input-field" placeholder="Name">
+                    </div>
+                    <div class="form-col">
+                        <label>Position/Title:</label>
+                        <input type="text" name="reviewedByPosition" class="input-field" placeholder="Position">
+                    </div>
+                    <div class="form-col">
+                        <label>Date Reviewed:</label>
+                        <input type="text" name="reviewedByDate" class="input-field" placeholder="DD/MM/YYYY">
+                    </div>
+                </div>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <label>Reviewer Signature:</label>
+                    <div class="signature-line">
+                        <p style="margin-top: 5px; font-size: 10pt;">Signature</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Approved By:</label>
+                        <input type="text" name="approvedByName" class="input-field" placeholder="Name">
+                    </div>
+                    <div class="form-col">
+                        <label>Position/Title:</label>
+                        <input type="text" name="approvedByPosition" class="input-field" placeholder="Position">
+                    </div>
+                    <div class="form-col">
+                        <label>Date Approved:</label>
+                        <input type="text" name="approvedByDate" class="input-field" placeholder="DD/MM/YYYY">
+                    </div>
+                </div>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <label>Approver Signature:</label>
+                    <div class="signature-line">
+                        <p style="margin-top: 5px; font-size: 10pt;">Signature</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning" style="margin-top: 30px;">
+                <p><strong>Important Reminders:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Complete this form as soon as possible after the incident (ideally within 24 hours)</li>
+                    <li>Be factual and objective - do not include opinions or assumptions</li>
+                    <li>Ensure all sections are completed accurately</li>
+                    <li>Attach all relevant supporting documentation</li>
+                    <li>Distribute copies to appropriate personnel as per company procedures</li>
+                    <li>Retain original in company records</li>
+                </ul>
+            </div>
+
+            <div class="important" style="margin-top: 20px;">
+                <p><strong>Distribution List:</strong></p>
+                <p style="margin-top: 5px;">Health & Safety Advisor | Event Operations Manager | Site Manager | Managing
+                    Director | [Other as required]</p>
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <h3 style="color: #1e40af; margin-bottom: 20px;">Submit Report</h3>
+                <p style="margin-bottom: 20px;">Please review all information before submitting. Once submitted, you
+                    will receive a confirmation message.</p>
+                <button type="submit" class="submit-button" id="submitBtn">Submit Report</button>
+                <div id="submitStatus" class="submit-status" style="display: none;"></div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        // Form submission handler
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('submitStatus');
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'submit-status sending';
+            statusDiv.textContent = 'Sending report... Please wait.';
+
+            try {
+                // Collect all form data
+                const formData = collectFormData();
+
+                // EmailJS service parameters - All configured!
+                // ============================================================
+                const serviceID = 'service_0rkbt9s';  // Your EmailJS Service ID
+                const templateID = 'dvi6djo';  // Your EmailJS Template ID
+
+                // Send email via EmailJS
+                await emailjs.send(serviceID, templateID, {
+                    to_email: 'emryys93@gmail.com',  // ⚠️ CHANGE THIS EMAIL ADDRESS to receive submissions
+                    subject: 'New Accident/Incident Report - ' + (formData.reportReference || 'No Reference'),
+                    message: formatEmailMessage(formData)
+                });
+
+                // Success
+                statusDiv.className = 'submit-status success';
+                statusDiv.textContent = '✓ Report submitted successfully! You will receive a confirmation email shortly.';
+                submitBtn.style.display = 'none';
+
+                // Optionally reset form after successful submission
+                // document.getElementById('incidentReportForm').reset();
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+                statusDiv.className = 'submit-status error';
+                statusDiv.textContent = '✗ Error submitting report. Please try again or contact support. Error: ' + (error.text || error.message);
+                submitBtn.disabled = false;
+            }
+        }
+
+        function collectFormData() {
+            const form = document.getElementById('incidentReportForm');
+            const data = {};
+
+            // Helper to get label text for a field
+            function getLabelText(input) {
+                // Try to find label by 'for' attribute
+                if (input.id) {
+                    const label = form.querySelector(`label[for="${input.id}"]`);
+                    if (label) return label.textContent.trim().replace(':', '');
+                }
+                // Try to find preceding label
+                const prevLabel = input.parentElement.querySelector('label');
+                if (prevLabel) return prevLabel.textContent.trim().replace(':', '');
+                return input.name || 'Unknown Field';
+            }
+
+            // Collect all text inputs and textareas
+            const textInputs = form.querySelectorAll('input[type="text"], textarea');
+            textInputs.forEach(input => {
+                if (input.value.trim()) {
+                    const key = input.name || getLabelText(input).replace(/\s+/g, '');
+                    data[key] = input.value.trim();
+                }
+            });
+
+            // Collect checkboxes
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            const checkboxGroups = {};
+            checkboxes.forEach(cb => {
+                const groupName = cb.name || 'miscCheckboxes';
+                if (!checkboxGroups[groupName]) {
+                    checkboxGroups[groupName] = [];
+                }
+                if (cb.checked) {
+                    const label = form.querySelector(`label[for="${cb.id}"]`);
+                    const text = label ? label.textContent.trim() : cb.value || 'Selected';
+                    checkboxGroups[groupName].push(text);
+                }
+            });
+
+            // Add checkbox groups to data
+            Object.keys(checkboxGroups).forEach(key => {
+                if (checkboxGroups[key].length > 0) {
+                    data[key] = checkboxGroups[key].join(', ');
+                }
+            });
+
+            // Collect radio buttons
+            const radios = form.querySelectorAll('input[type="radio"]:checked');
+            radios.forEach(radio => {
+                const key = radio.name || getLabelText(radio).replace(/\s+/g, '');
+                const label = form.querySelector(`label[for="${radio.id}"]`);
+                data[key] = label ? label.textContent.trim() : radio.value || 'Selected';
+            });
+
+            return data;
+        }
+
+        function formatEmailMessage(data) {
+            let message = 'NEW ACCIDENT/INCIDENT REPORT SUBMITTED\n\n';
+            message += '='.repeat(70) + '\n\n';
+
+            // Format the data in a readable way
+            for (const [key, value] of Object.entries(data)) {
+                // Convert camelCase to readable format
+                const label = key
+                    .replace(/([A-Z])/g, ' $1')
+                    .replace(/^./, str => str.toUpperCase())
+                    .replace(/(\d+)/g, ' $1');
+
+                if (Array.isArray(value)) {
+                    message += `${label}: ${value.join(', ')}\n`;
+                } else if (value && value.toString().trim()) {
+                    message += `${label}: ${value}\n`;
+                }
+            }
+
+            message += '\n' + '='.repeat(70) + '\n';
+            message += '\nSubmitted at: ' + new Date().toLocaleString();
+            message += '\n\nThis is an automated submission from the HERO Accident/Incident Report Form.';
+
+            return message;
+        }
+    </script>
+</body>
+
+</html>
