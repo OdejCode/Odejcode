@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,56 +13,56 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             line-height: 1.6;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
-        
+
         .header {
             background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
             color: white;
             padding: 40px 30px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 32px;
             margin-bottom: 10px;
         }
-        
+
         .header p {
             font-size: 16px;
             opacity: 0.95;
         }
-        
+
         .progress-bar {
             height: 6px;
             background: #e5e7eb;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #10b981, #059669);
             width: 0%;
             transition: width 0.3s ease;
         }
-        
+
         .content {
             padding: 40px 30px;
         }
-        
+
         .section {
             margin-bottom: 40px;
             padding: 25px;
@@ -69,7 +70,7 @@
             border-radius: 8px;
             border-left: 4px solid #2563eb;
         }
-        
+
         .section-title {
             font-size: 22px;
             color: #1f2937;
@@ -78,7 +79,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .section-number {
             background: #2563eb;
             color: white;
@@ -91,17 +92,17 @@
             font-size: 16px;
             font-weight: bold;
         }
-        
+
         .section-desc {
             color: #6b7280;
             font-size: 14px;
             margin-bottom: 20px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         label {
             display: block;
             font-weight: 600;
@@ -109,12 +110,12 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
-        
+
         .required {
             color: #ef4444;
             margin-left: 3px;
         }
-        
+
         input[type="text"],
         input[type="email"],
         input[type="tel"],
@@ -130,7 +131,7 @@
             transition: all 0.3s;
             font-family: inherit;
         }
-        
+
         input:focus,
         textarea:focus,
         select:focus {
@@ -138,32 +139,32 @@
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-        
+
         textarea {
             min-height: 100px;
             resize: vertical;
         }
-        
+
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        
+
         .help-text {
             font-size: 12px;
             color: #6b7280;
             margin-top: 5px;
             font-style: italic;
         }
-        
+
         .checkbox-group,
         .radio-group {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
+
         .checkbox-item,
         .radio-item {
             display: flex;
@@ -175,37 +176,37 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        
+
         .checkbox-item:hover,
         .radio-item:hover {
             background: #f3f4f6;
         }
-        
+
         input[type="checkbox"],
         input[type="radio"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
         }
-        
+
         .dynamic-list {
             border: 2px dashed #d1d5db;
             border-radius: 6px;
             padding: 15px;
             background: white;
         }
-        
+
         .list-item {
             display: flex;
             gap: 10px;
             margin-bottom: 10px;
             align-items: center;
         }
-        
+
         .list-item input {
             flex: 1;
         }
-        
+
         .btn {
             padding: 10px 20px;
             border: none;
@@ -215,27 +216,27 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .btn-add {
             background: #10b981;
             color: white;
             margin-top: 10px;
         }
-        
+
         .btn-add:hover {
             background: #059669;
         }
-        
+
         .btn-remove {
             background: #ef4444;
             color: white;
             padding: 8px 12px;
         }
-        
+
         .btn-remove:hover {
             background: #dc2626;
         }
-        
+
         .btn-submit {
             background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
             color: white;
@@ -244,12 +245,12 @@
             width: 100%;
             margin-top: 20px;
         }
-        
+
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
-        
+
         .alert {
             padding: 15px;
             border-radius: 6px;
@@ -258,76 +259,82 @@
             align-items: start;
             gap: 12px;
         }
-        
+
         .alert-info {
             background: #dbeafe;
             border: 1px solid #93c5fd;
             color: #1e40af;
         }
-        
+
         .alert-success {
             background: #d1fae5;
             border: 1px solid #6ee7b7;
             color: #065f46;
             display: none;
         }
-        
+
         .subsection {
             margin-top: 25px;
             padding-top: 20px;
             border-top: 2px solid #e5e7eb;
         }
-        
+
         .subsection-title {
             font-size: 16px;
             font-weight: 600;
             color: #1f2937;
             margin-bottom: 15px;
         }
-        
+
         @media (max-width: 768px) {
             .row {
                 grid-template-columns: 1fr;
             }
-            
+
             .header h1 {
                 font-size: 24px;
             }
-            
+
             .content {
                 padding: 20px 15px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>📋 Event Safety Management Plan</h1>
             <p>Universal Event Safety Questionnaire - All Event Types</p>
         </div>
-        
+
         <div class="progress-bar">
             <div class="progress-fill" id="progressBar"></div>
         </div>
-        
+
         <div class="content">
             <div class="alert alert-info">
                 <span style="font-size: 24px;">ℹ️</span>
                 <div>
-                    <strong>Instructions:</strong> Please complete all sections thoroughly. This questionnaire is applicable to all event types including concerts, festivals, exhibitions, corporate events, sporting events, and more. Fields marked with <span class="required">*</span> are mandatory. Your responses will be used to generate a comprehensive Event Safety Management Plan tailored to your specific event requirements.
+                    <strong>Instructions:</strong> Please complete all sections thoroughly. This questionnaire is
+                    applicable to all event types including concerts, festivals, exhibitions, corporate events, sporting
+                    events, and more. Fields marked with <span class="required">*</span> are mandatory. Your responses
+                    will be used to generate a comprehensive Event Safety Management Plan tailored to your specific
+                    event requirements.
                 </div>
             </div>
-            
+
             <div class="alert alert-success" id="successAlert">
                 <span style="font-size: 24px;">✅</span>
                 <div>
-                    <strong>Success!</strong> Your responses have been saved. Click the download button to get your data.
+                    <strong>Success!</strong> Your responses have been saved. Click the download button to get your
+                    data.
                 </div>
             </div>
-            
+
             <form id="esmpForm">
-                
+
                 <!-- SECTION 1: COMPANY & EVENT BASIC INFO -->
                 <div class="section">
                     <div class="section-title">
@@ -335,12 +342,12 @@
                         <span>Company & Event Information</span>
                     </div>
                     <p class="section-desc">General information about your organization and event</p>
-                    
+
                     <div class="form-group">
                         <label>Company/Organization Name <span class="required">*</span></label>
                         <input type="text" name="companyName" required>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Primary Contact Person <span class="required">*</span></label>
@@ -351,7 +358,7 @@
                             <input type="text" name="contactTitle" required>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Email Address <span class="required">*</span></label>
@@ -362,12 +369,12 @@
                             <input type="tel" name="phone" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Event Name <span class="required">*</span></label>
                         <input type="text" name="eventName" required>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Event Date(s) <span class="required">*</span></label>
@@ -378,7 +385,7 @@
                             <input type="date" name="eventEndDate">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Event Type <span class="required">*</span></label>
                         <select name="eventType" required>
@@ -400,13 +407,14 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Brief Event Description <span class="required">*</span></label>
-                        <textarea name="eventDescription" required placeholder="Describe what your event involves, key activities, and the overall experience..."></textarea>
+                        <textarea name="eventDescription" required
+                            placeholder="Describe what your event involves, key activities, and the overall experience..."></textarea>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 2: VENUE INFORMATION -->
                 <div class="section">
                     <div class="section-title">
@@ -414,17 +422,17 @@
                         <span>Venue Information</span>
                     </div>
                     <p class="section-desc">Details about the event location and facilities</p>
-                    
+
                     <div class="form-group">
                         <label>Venue Name <span class="required">*</span></label>
                         <input type="text" name="venueName" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Full Venue Address <span class="required">*</span></label>
                         <textarea name="venueAddress" required rows="3"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Venue Type <span class="required">*</span></label>
                         <select name="venueType" required>
@@ -435,7 +443,7 @@
                             <option value="temporary">Temporary Structure/Marquee</option>
                         </select>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Total Venue Area (sq meters)</label>
@@ -446,7 +454,7 @@
                             <input type="number" name="ceilingHeight" step="0.1" placeholder="e.g., 4.5">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Does the venue have existing safety systems? <span class="required">*</span></label>
                         <div class="checkbox-group">
@@ -480,7 +488,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Number of Emergency Exits <span class="required">*</span></label>
@@ -491,10 +499,10 @@
                             <input type="number" name="assemblyPoints" required min="1">
                         </div>
                     </div>
-                    
+
                     <div class="subsection">
                         <div class="subsection-title">Temporary Structures (if applicable)</div>
-                        
+
                         <div class="form-group">
                             <label>Will you be using temporary structures?</label>
                             <div class="checkbox-group">
@@ -524,31 +532,22 @@
                                 </label>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Structural Engineering Certificates Available?</label>
-                            <div class="radio-group">
-                                <label class="radio-item">
-                                    <input type="radio" name="structuralCerts" value="yes">
-                                    Yes - All structures certified
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="structuralCerts" value="partial">
-                                    Some structures certified
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="structuralCerts" value="no">
-                                    No - Need assistance
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="structuralCerts" value="na">
-                                    N/A - No temporary structures
-                                </label>
+                            <div class="select-wrapper">
+                                <select name="structuralCerts" class="form-select">
+                                    <option value="">-- Select --</option>
+                                    <option value="yes">Yes - All structures certified</option>
+                                    <option value="partial">Some structures certified</option>
+                                    <option value="no">No - Need assistance</option>
+                                    <option value="na">N/A - No temporary structures</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 3: CAPACITY & ATTENDANCE -->
                 <div class="section">
                     <div class="section-title">
@@ -556,7 +555,7 @@
                         <span>Capacity & Attendance</span>
                     </div>
                     <p class="section-desc">Expected attendance and crowd management details</p>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Maximum Venue Capacity <span class="required">*</span></label>
@@ -569,7 +568,7 @@
                             <p class="help-text">Total number of guests expected throughout the event</p>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Expected Audience Profile <span class="required">*</span></label>
                         <div class="checkbox-group">
@@ -611,34 +610,26 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Minimum Age Requirement (if any)</label>
                         <input type="number" name="minAge" placeholder="e.g., 13">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Event Format <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <label class="radio-item">
-                                <input type="radio" name="sessionFormat" value="continuous" required>
-                                Continuous (guests arrive/leave freely during operating hours)
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="sessionFormat" value="timed" required>
-                                Timed Sessions (specific entry times/waves)
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="sessionFormat" value="single" required>
-                                Single Event (one start/end time for all)
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="sessionFormat" value="multiday" required>
-                                Multi-day (ongoing over several days)
-                            </label>
+                        <div class="select-wrapper">
+                            <select name="sessionFormat" class="form-select" required>
+                                <option value="">-- Select --</option>
+                                <option value="continuous">Continuous (guests arrive/leave freely during operating
+                                    hours)</option>
+                                <option value="timed">Timed Sessions (specific entry times/waves)</option>
+                                <option value="single">Single Event (one start/end time for all)</option>
+                                <option value="multiday">Multi-day (ongoing over several days)</option>
+                            </select>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group">
                             <label>Event Duration (hours)</label>
@@ -652,7 +643,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 4: TRANSPORTATION & PARKING -->
                 <div class="section">
                     <div class="section-title">
@@ -660,39 +651,30 @@
                         <span>Transportation & Parking</span>
                     </div>
                     <p class="section-desc">Access and parking arrangements for the event</p>
-                    
+
                     <div class="form-group">
                         <label>Parking Provision <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <label class="radio-item">
-                                <input type="radio" name="parking" value="onsite" required>
-                                On-site parking available
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="parking" value="offsite" required>
-                                Off-site parking with shuttle service
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="parking" value="public" required>
-                                Public parking/Street parking only
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="parking" value="none" required>
-                                No parking - Public transport/Walk-in only
-                            </label>
+                        <div class="select-wrapper">
+                            <select name="parking" class="form-select" required>
+                                <option value="">-- Select --</option>
+                                <option value="onsite">On-site parking available</option>
+                                <option value="offsite">Off-site parking with shuttle service</option>
+                                <option value="public">Public parking/Street parking only</option>
+                                <option value="none">No parking - Public transport/Walk-in only</option>
+                            </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Number of Parking Spaces Available</label>
                         <input type="number" name="parkingSpaces" placeholder="e.g., 500">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Accessible Parking Spaces</label>
                         <input type="number" name="accessibleParking" placeholder="e.g., 20">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Transportation Options</label>
                         <div class="checkbox-group">
@@ -722,30 +704,21 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Traffic Management Plan in Place?</label>
-                        <div class="radio-group">
-                            <label class="radio-item">
-                                <input type="radio" name="trafficPlan" value="yes">
-                                Yes - Approved by authorities
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="trafficPlan" value="developing">
-                                In development
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="trafficPlan" value="no">
-                                No - Need assistance
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="trafficPlan" value="na">
-                                N/A - Not required
-                            </label>
+                        <div class="select-wrapper">
+                            <select name="trafficPlan" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Approved by authorities</option>
+                                <option value="developing">In development</option>
+                                <option value="no">No - Need assistance</option>
+                                <option value="na">N/A - Not required</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 5: HAZARD IDENTIFICATION -->
                 <div class="section">
                     <div class="section-title">
@@ -753,7 +726,7 @@
                         <span>Hazard Identification & Risk Factors</span>
                     </div>
                     <p class="section-desc">Identify potential hazards specific to your event</p>
-                    
+
                     <div class="form-group">
                         <label>Will your event involve any of the following? <span class="required">*</span></label>
                         <div class="checkbox-group">
@@ -823,13 +796,14 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Additional Hazards or Concerns</label>
-                        <textarea name="additionalHazards" placeholder="Describe any other potential risks or safety concerns specific to your event..."></textarea>
+                        <textarea name="additionalHazards"
+                            placeholder="Describe any other potential risks or safety concerns specific to your event..."></textarea>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 6: TECHNICAL REQUIREMENTS -->
                 <div class="section">
                     <div class="section-title">
@@ -837,7 +811,7 @@
                         <span>Technical Requirements</span>
                     </div>
                     <p class="section-desc">Technical systems and equipment for your event</p>
-                    
+
                     <div class="form-group">
                         <label>Technical Equipment Required</label>
                         <div class="checkbox-group">
@@ -867,7 +841,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Audio/Sound Systems</label>
                         <div class="checkbox-group">
@@ -901,37 +875,31 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Maximum Sound Level (dB)</label>
                         <input type="number" name="maxSoundLevel" placeholder="e.g., 95">
                         <p class="help-text">Recommended maximum: 95dB(A) continuous, 110dB(A) peak</p>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Power Requirements</label>
                         <input type="text" name="powerRequirements" placeholder="e.g., 100kVA, 3-phase supply">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Event Control/Command Center <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <label class="radio-item">
-                                <input type="radio" name="controlRoom" value="dedicated" required>
-                                Yes - Dedicated control room/command center
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="controlRoom" value="mobile" required>
-                                Mobile control station
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="controlRoom" value="none" required>
-                                No - Management from event floor
-                            </label>
+                        <div class="select-wrapper">
+                            <select name="controlRoom" class="form-select" required>
+                                <option value="">-- Select --</option>
+                                <option value="dedicated">Yes - Dedicated control room/command center</option>
+                                <option value="mobile">Mobile control station</option>
+                                <option value="none">No - Management from event floor</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 7: STAFFING & ROLES -->
                 <div class="section">
                     <div class="section-title">
@@ -939,39 +907,39 @@
                         <span>Staffing & Team Structure</span>
                     </div>
                     <p class="section-desc">Information about your event staff and their roles</p>
-                    
+
                     <div class="form-group">
                         <label>Total Number of Staff/Crew <span class="required">*</span></label>
                         <input type="number" name="totalStaff" required>
                     </div>
-                    
+
                     <div class="subsection">
                         <div class="subsection-title">Key Personnel</div>
-                        
+
                         <div class="form-group">
                             <label>Event Director/Manager Name</label>
                             <input type="text" name="eventDirector">
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Site/Operations Manager Name</label>
                             <input type="text" name="siteManager">
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Health & Safety Officer Name (if assigned)</label>
                             <input type="text" name="hseOfficer">
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Technical Director Name (if applicable)</label>
                             <input type="text" name="technicalDirector">
                         </div>
                     </div>
-                    
+
                     <div class="subsection">
                         <div class="subsection-title">Staff Categories & Numbers</div>
-                        
+
                         <div class="row">
                             <div class="form-group">
                                 <label>Event Management/Coordinators</label>
@@ -982,7 +950,7 @@
                                 <input type="number" name="techCrewCount" value="0">
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="form-group">
                                 <label>Security Personnel/Crowd Control</label>
@@ -993,7 +961,7 @@
                                 <input type="number" name="medicalCount" value="0">
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="form-group">
                                 <label>Performers/Entertainers</label>
@@ -1004,7 +972,7 @@
                                 <input type="number" name="fohCount" value="0">
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="form-group">
                                 <label>Food & Beverage Staff</label>
@@ -1015,7 +983,7 @@
                                 <input type="number" name="cleaningCount" value="0">
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="form-group">
                                 <label>Volunteers</label>
@@ -1028,7 +996,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 8: CONTRACTORS & SUPPLIERS -->
                 <div class="section">
                     <div class="section-title">
@@ -1036,28 +1004,30 @@
                         <span>Contractors & Suppliers</span>
                     </div>
                     <p class="section-desc">External companies providing services</p>
-                    
+
                     <div class="form-group">
                         <label>Security Company Name</label>
                         <input type="text" name="securityCompany">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Medical/First Aid Provider Name</label>
                         <input type="text" name="medicalProvider">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Technical Equipment Supplier(s)</label>
-                        <textarea name="techSuppliers" rows="2" placeholder="List companies providing lighting, sound, effects equipment..."></textarea>
+                        <textarea name="techSuppliers" rows="2"
+                            placeholder="List companies providing lighting, sound, effects equipment..."></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Other Contractors (Catering, Cleaning, etc.)</label>
-                        <textarea name="otherContractors" rows="3" placeholder="List any other contractors and their roles..."></textarea>
+                        <textarea name="otherContractors" rows="3"
+                            placeholder="List any other contractors and their roles..."></textarea>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 9: EMERGENCY MANAGEMENT -->
                 <div class="section">
                     <div class="section-title">
@@ -1065,17 +1035,17 @@
                         <span>Emergency Management</span>
                     </div>
                     <p class="section-desc">Emergency response and preparedness</p>
-                    
+
                     <div class="form-group">
                         <label>Nearest Hospital/Medical Facility <span class="required">*</span></label>
                         <input type="text" name="nearestHospital" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Distance to Hospital (km)</label>
                         <input type="number" name="hospitalDistance" step="0.1">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Will you have an on-site ambulance? <span class="required">*</span></label>
                         <div class="radio-group">
@@ -1089,12 +1059,12 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Number of First Aid Stations <span class="required">*</span></label>
                         <input type="number" name="firstAidStations" required min="1">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Emergency Equipment Available</label>
                         <div class="checkbox-group">
@@ -1120,7 +1090,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Have evacuation drills been planned? <span class="required">*</span></label>
                         <div class="radio-group">
@@ -1135,7 +1105,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- SECTION 10: COMPLIANCE & INSURANCE -->
                 <div class="section">
                     <div class="section-title">
@@ -1143,7 +1113,7 @@
                         <span>Compliance & Insurance</span>
                     </div>
                     <p class="section-desc">Legal requirements and insurance coverage</p>
-                    
+
                     <div class="form-group">
                         <label>Do you have Public Liability Insurance? <span class="required">*</span></label>
                         <div class="radio-group">
@@ -1157,17 +1127,17 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Public Liability Coverage Amount (AED)</label>
                         <input type="text" name="liabilityCoverage" placeholder="e.g., 5,000,000">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Insurance Policy Number</label>
                         <input type="text" name="policyNumber">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Have you obtained necessary permits/licenses? <span class="required">*</span></label>
                         <div class="checkbox-group">
@@ -1197,7 +1167,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Are you OSHAD compliant? <span class="required">*</span></label>
                         <div class="radio-group">
@@ -1216,36 +1186,1007 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- SECTION 11: ADDITIONAL INFORMATION -->
+
+                <!-- SECTION 11: COMMUNICATION & COORDINATION -->
                 <div class="section">
                     <div class="section-title">
                         <span class="section-number">11</span>
+                        <span>Communication & Coordination</span>
+                    </div>
+                    <p class="section-desc">Communication systems and protocols for the event</p>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Radio Communication Systems</label>
+                            <input type="number" name="radioCount" placeholder="Number of radios">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Communication Channels</label>
+                            <input type="number" name="radioChannels" placeholder="e.g., 4">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Communication Systems Available</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="communicationSystems" value="twoWayRadio">
+                                Two-way radios
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="communicationSystems" value="paSystem">
+                                PA/Public address system
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="communicationSystems" value="intercom">
+                                Intercom system
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="communicationSystems" value="mobilePhone">
+                                Mobile phone network
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="communicationSystems" value="satellite">
+                                Satellite phone backup
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mobile Phone Coverage Assessment</label>
+                        <div class="select-wrapper">
+                            <select name="mobileCoverage" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="excellent">Excellent - Strong signal throughout venue</option>
+                                <option value="good">Good - Mostly reliable</option>
+                                <option value="poor">Poor - Dead zones present</option>
+                                <option value="unknown">Not yet assessed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Emergency Contact List Prepared?</label>
+                        <div class="select-wrapper">
+                            <select name="emergencyContactList" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - All key personnel contacts documented</option>
+                                <option value="partial">Partially prepared</option>
+                                <option value="no">No - Need assistance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 12: CROWD MANAGEMENT & ENTRY CONTROL -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">12</span>
+                        <span>Crowd Management & Entry Control</span>
+                    </div>
+                    <p class="section-desc">Entry procedures and crowd management strategies</p>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Number of Entry Points <span class="required">*</span></label>
+                            <input type="number" name="entryPoints" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Exit Points <span class="required">*</span></label>
+                            <input type="number" name="exitPoints" required min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Security Screening Procedures</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="bagCheck">
+                                Bag checks
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="metalDetector">
+                                Metal detectors
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="patDown">
+                                Pat-down searches
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="ticketValidation">
+                                Ticket validation
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="idCheck">
+                                ID verification
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="screeningProcedures" value="none">
+                                No screening - Open access
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ticket/Entry System</label>
+                        <div class="select-wrapper">
+                            <select name="ticketSystem" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="electronic">Electronic tickets (QR codes, barcodes)</option>
+                                <option value="paper">Paper tickets</option>
+                                <option value="guestList">Guest list/Will call</option>
+                                <option value="free">Free entry - No tickets required</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>VIP Entry Procedures</label>
+                        <textarea name="vipEntryProcedures" rows="2"
+                            placeholder="Describe any separate VIP entry procedures, locations, or requirements..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Queuing Management System</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="queuingSystem" value="barriers">
+                                Physical barriers/ropes
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="queuingSystem" value="signage">
+                                Directional signage
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="queuingSystem" value="staff">
+                                Staff monitoring queues
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="queuingSystem" value="timed">
+                                Timed entry slots
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lost & Found Procedures</label>
+                        <div class="select-wrapper">
+                            <select name="lostFound" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="dedicated">Yes - Dedicated lost & found station</option>
+                                <option value="security">Handled by security team</option>
+                                <option value="no">No formal procedure</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 13: FIRE SAFETY DETAILS -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">13</span>
+                        <span>Fire Safety Details</span>
+                    </div>
+                    <p class="section-desc">Comprehensive fire safety measures and equipment</p>
+
+                    <div class="form-group">
+                        <label>Fire Detection System</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireDetection" value="smokeAlarms">
+                                Smoke alarms/detectors
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireDetection" value="heatSensors">
+                                Heat sensors
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireDetection" value="manualCallPoints">
+                                Manual call points
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireDetection" value="none">
+                                No fire detection system
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fire Suppression Systems</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireSuppression" value="sprinklers">
+                                Sprinkler system
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireSuppression" value="foam">
+                                Foam suppression
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireSuppression" value="gas">
+                                Gas suppression system
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireSuppression" value="fireExtinguishers">
+                                Fire extinguishers only
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="fireSuppression" value="none">
+                                None - Portable extinguishers only
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Number of Fire Extinguishers</label>
+                            <input type="number" name="fireExtinguisherCount" placeholder="e.g., 20">
+                        </div>
+                        <div class="form-group">
+                            <label>Fire Extinguisher Types</label>
+                            <input type="text" name="extinguisherTypes" placeholder="e.g., ABC, CO2, Water">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fire Assembly Point Locations</label>
+                        <textarea name="fireAssemblyPoints" rows="2"
+                            placeholder="Describe locations of designated fire assembly points..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fire Wardens Assigned?</label>
+                        <div class="select-wrapper">
+                            <select name="fireWardens" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Trained fire wardens assigned</option>
+                                <option value="no">No - Need to assign</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Fire Wardens</label>
+                        <input type="number" name="fireWardenCount" placeholder="e.g., 5">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hot Work Permits Required?</label>
+                        <div class="select-wrapper">
+                            <select name="hotWorkPermits" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Welding, cutting, or other hot work planned</option>
+                                <option value="no">No - No hot work planned</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 14: WEATHER MONITORING & OUTDOOR CONSIDERATIONS -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">14</span>
+                        <span>Weather Monitoring & Outdoor Considerations</span>
+                    </div>
+                    <p class="section-desc">Weather monitoring and outdoor event safety measures</p>
+
+                    <div class="form-group">
+                        <label>Event Location Type</label>
+                        <div class="select-wrapper">
+                            <select name="eventLocationType" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="indoor">Fully indoor</option>
+                                <option value="outdoor">Fully outdoor</option>
+                                <option value="mixed">Mixed indoor/outdoor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Weather Monitoring Plan</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="weatherMonitoring" value="metOffice">
+                                Met Office/Weather service monitoring
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="weatherMonitoring" value="onSite">
+                                On-site weather station
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="weatherMonitoring" value="mobileApp">
+                                Weather app monitoring
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="weatherMonitoring" value="none">
+                                No formal monitoring plan
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Extreme Weather Contingency Plan</label>
+                        <div class="select-wrapper">
+                            <select name="weatherContingency" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Plan in place</option>
+                                <option value="developing">In development</option>
+                                <option value="no">No - Need assistance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sun Protection Measures</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="sunProtection" value="shadeStructures">
+                                Shade structures/tents
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="sunProtection" value="sunscreen">
+                                Sunscreen provided
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="sunProtection" value="waterStations">
+                                Water stations
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="sunProtection" value="indoorAreas">
+                                Indoor/cooling areas
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Wind Speed Limits for Temporary Structures</label>
+                        <input type="text" name="windSpeedLimits"
+                            placeholder="e.g., Structures must be secured for winds up to 50 km/h">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rain/Weather Provisions</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rainProvisions" value="covered">
+                                Covered areas/shelters
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rainProvisions" value="tents">
+                                Weatherproof tents
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rainProvisions" value="indoor">
+                                Indoor backup venue
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rainProvisions" value="none">
+                                No rain provisions
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dust/Sand Storm Procedures (for UAE)</label>
+                        <textarea name="dustStormProcedures" rows="2"
+                            placeholder="Describe procedures for dust/sand storms if applicable..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 15: LOAD-IN/LOAD-OUT PROCEDURES -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">15</span>
+                        <span>Load-In/Load-Out Procedures</span>
+                    </div>
+                    <p class="section-desc">Build-up and break-down schedule and procedures</p>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Build-up Start Date</label>
+                            <input type="date" name="buildUpStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Build-up Days Before Event</label>
+                            <input type="number" name="buildUpDays" placeholder="e.g., 3">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Load-in Times</label>
+                            <input type="text" name="loadInTimes" placeholder="e.g., 8:00 AM - 6:00 PM">
+                        </div>
+                        <div class="form-group">
+                            <label>Break-down Start Date</label>
+                            <input type="date" name="breakDownStartDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Heavy Machinery/Equipment Access</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="heavyMachinery" value="cranes">
+                                Cranes
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="heavyMachinery" value="forklifts">
+                                Forklifts
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="heavyMachinery" value="trucks">
+                                Large trucks
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="heavyMachinery" value="scaffolding">
+                                Scaffolding equipment
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="heavyMachinery" value="none">
+                                No heavy machinery required
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Load-in Routes/Locations</label>
+                        <textarea name="loadInRoutes" rows="2"
+                            placeholder="Describe designated load-in routes and access points..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Security During Build-up/Break-down</label>
+                        <div class="select-wrapper">
+                            <select name="buildSecurity" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="dedicated">Yes - Dedicated security team</option>
+                                <option value="partial">Partial coverage</option>
+                                <option value="no">No - Need to arrange</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 16: ENVIRONMENTAL & WASTE MANAGEMENT -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">16</span>
+                        <span>Environmental & Waste Management</span>
+                    </div>
+                    <p class="section-desc">Waste management and environmental considerations</p>
+
+                    <div class="form-group">
+                        <label>Waste Management Plan</label>
+                        <div class="select-wrapper">
+                            <select name="wasteManagement" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Comprehensive plan in place</option>
+                                <option value="basic">Basic plan</option>
+                                <option value="no">No - Need assistance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Recycling Provisions</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recycling" value="bins">
+                                Recycling bins provided
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recycling" value="collection">
+                                Separate collection service
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="recycling" value="none">
+                                No recycling provisions
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sanitation Facilities - Toilets per Person Ratio</label>
+                        <input type="text" name="toiletRatio" placeholder="e.g., 1 toilet per 50 people">
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Number of Toilet Facilities</label>
+                            <input type="number" name="toiletCount" placeholder="e.g., 20">
+                        </div>
+                        <div class="form-group">
+                            <label>Accessible Toilets</label>
+                            <input type="number" name="accessibleToilets" placeholder="e.g., 4">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Water Supply and Distribution Points</label>
+                        <textarea name="waterSupply" rows="2"
+                            placeholder="Describe water supply locations and distribution points..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Grease/Oil Disposal (if food service)</label>
+                        <div class="select-wrapper">
+                            <select name="greaseDisposal" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Proper disposal arranged</option>
+                                <option value="no">No - Not applicable</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 17: ACCESSIBILITY BEYOND PARKING -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">17</span>
+                        <span>Accessibility Beyond Parking</span>
+                    </div>
+                    <p class="section-desc">Comprehensive accessibility provisions</p>
+
+                    <div class="form-group">
+                        <label>Wheelchair Accessible Routes</label>
+                        <div class="select-wrapper">
+                            <select name="wheelchairRoutes" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - All routes accessible</option>
+                                <option value="partial">Partial accessibility</option>
+                                <option value="no">No - Limited accessibility</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Accessibility Features Available</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="ramps">
+                                Wheelchair ramps
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="elevators">
+                                Elevators/lifts
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="accessibleToilets">
+                                Accessible toilet facilities
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="seating">
+                                Accessible seating/viewing areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="signLanguage">
+                                Sign language interpreters
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="hearingLoop">
+                                Hearing loop systems
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="braille">
+                                Braille signage
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="accessibilityFeatures" value="visualAssistance">
+                                Visual impairment assistance
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Accessible Seating/Viewing Areas</label>
+                        <textarea name="accessibleSeating" rows="2"
+                            placeholder="Describe accessible seating or viewing areas..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 18: EVENT TIMELINE & SCHEDULING -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">18</span>
+                        <span>Event Timeline & Scheduling</span>
+                    </div>
+                    <p class="section-desc">Event schedule and key timing information</p>
+
+                    <div class="form-group">
+                        <label>Event Schedule/Timeline</label>
+                        <textarea name="eventSchedule" rows="4"
+                            placeholder="Provide a detailed event schedule including key activities, performances, breaks, etc..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Peak Attendance Times</label>
+                        <input type="text" name="peakAttendanceTimes" placeholder="e.g., 6:00 PM - 9:00 PM">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Activities Schedule</label>
+                        <textarea name="specialActivities" rows="3"
+                            placeholder="List any special activities, performances, or events with specific times..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rehearsal Dates and Times</label>
+                        <textarea name="rehearsalDates" rows="2"
+                            placeholder="List rehearsal dates and times if applicable..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 19: SECURITY OPERATIONS -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">19</span>
+                        <span>Security Operations</span>
+                    </div>
+                    <p class="section-desc">Security measures and deployment</p>
+
+                    <div class="form-group">
+                        <label>Security Personnel Deployment Plan</label>
+                        <textarea name="securityDeployment" rows="3"
+                            placeholder="Describe security personnel deployment including key positions, patrols, etc..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CCTV Coverage Areas</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="entrance">
+                                Entrance/exits
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="mainArea">
+                                Main event areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="parking">
+                                Parking areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="backstage">
+                                Backstage/restricted areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="full">
+                                Full venue coverage
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="cctvCoverage" value="none">
+                                No CCTV coverage
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Restricted Areas</label>
+                        <textarea name="restrictedAreas" rows="2"
+                            placeholder="Describe any restricted areas (backstage, VIP, storage, etc.)..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Backstage/VIP Area Security</label>
+                        <div class="select-wrapper">
+                            <select name="backstageSecurity" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="dedicated">Yes - Dedicated security team</option>
+                                <option value="patrol">Regular patrols</option>
+                                <option value="none">No special security</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Asset Protection Measures</label>
+                        <textarea name="assetProtection" rows="2"
+                            placeholder="Describe measures for protecting valuable equipment or assets..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 20: MEDIA & PRESS MANAGEMENT -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">20</span>
+                        <span>Media & Press Management</span>
+                    </div>
+                    <p class="section-desc">Media accreditation and press arrangements</p>
+
+                    <div class="form-group">
+                        <label>Media Accreditation Process</label>
+                        <div class="select-wrapper">
+                            <select name="mediaAccreditation" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Formal accreditation process</option>
+                                <option value="open">Open to all media</option>
+                                <option value="no">No media access</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Press Area Location</label>
+                        <input type="text" name="pressAreaLocation"
+                            placeholder="e.g., Designated media area near stage">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Photo/Video Restrictions</label>
+                        <textarea name="photoRestrictions" rows="2"
+                            placeholder="Describe any restrictions on photography or videography..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Social Media Monitoring</label>
+                        <div class="select-wrapper">
+                            <select name="socialMediaMonitoring" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Monitoring social media during event</option>
+                                <option value="no">No monitoring</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 21: CHILD PROTECTION & SAFEGUARDING -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">21</span>
+                        <span>Child Protection & Safeguarding</span>
+                    </div>
+                    <p class="section-desc">Child protection policies and procedures</p>
+
+                    <div class="form-group">
+                        <label>Child Protection Policy</label>
+                        <div class="select-wrapper">
+                            <select name="childProtectionPolicy" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Policy in place</option>
+                                <option value="developing">In development</option>
+                                <option value="no">No - Need assistance</option>
+                                <option value="na">N/A - No children expected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Background Checks for Staff</label>
+                        <div class="select-wrapper">
+                            <select name="backgroundChecks" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="all">Yes - All staff checked</option>
+                                <option value="some">Some staff checked</option>
+                                <option value="no">No - Need to arrange</option>
+                                <option value="na">N/A - No children expected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lost Child Procedures</label>
+                        <div class="select-wrapper">
+                            <select name="lostChildProcedures" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Procedures in place</option>
+                                <option value="no">No - Need to develop</option>
+                                <option value="na">N/A - No children expected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Child Supervision Requirements</label>
+                        <textarea name="childSupervision" rows="2"
+                            placeholder="Describe any requirements for child supervision or designated areas..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Age-Appropriate Activity Zones</label>
+                        <textarea name="ageAppropriateZones" rows="2"
+                            placeholder="Describe any age-specific zones or activities..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 22: NOISE MANAGEMENT -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">22</span>
+                        <span>Noise Management</span>
+                    </div>
+                    <p class="section-desc">Noise level monitoring and complaint procedures</p>
+
+                    <div class="form-group">
+                        <label>Noise Level Monitoring</label>
+                        <div class="select-wrapper">
+                            <select name="noiseMonitoring" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="continuous">Yes - Continuous monitoring</option>
+                                <option value="periodic">Periodic checks</option>
+                                <option value="no">No monitoring</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Noise Complaint Procedures</label>
+                        <div class="select-wrapper">
+                            <select name="noiseComplaintProcedures" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Procedures in place</option>
+                                <option value="no">No - Need to develop</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Neighbor Notification Process</label>
+                        <div class="select-wrapper">
+                            <select name="neighborNotification" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Neighbors notified in advance</option>
+                                <option value="no">No - Not notified</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sound Curfew Times</label>
+                        <input type="text" name="soundCurfew" placeholder="e.g., Sound must reduce after 10:00 PM">
+                    </div>
+                </div>
+
+                <!-- SECTION 23: SIGNAGE & WAYFINDING -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">23</span>
+                        <span>Signage & Wayfinding</span>
+                    </div>
+                    <p class="section-desc">Event signage and directional information</p>
+
+                    <div class="form-group">
+                        <label>Emergency Exit Signage</label>
+                        <div class="select-wrapper">
+                            <select name="exitSignage" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="adequate">Yes - Adequate signage in place</option>
+                                <option value="need">Need additional signage</option>
+                                <option value="none">No exit signage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Directional Signage Plan</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="directionalSignage" value="entrances">
+                                Entrance/exit signs
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="directionalSignage" value="facilities">
+                                Toilet/facility signs
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="directionalSignage" value="firstAid">
+                                First aid station signs
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="directionalSignage" value="parking">
+                                Parking direction signs
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="directionalSignage" value="stages">
+                                Stage/activity area signs
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Information Boards/Kiosks</label>
+                        <div class="select-wrapper">
+                            <select name="infoBoards" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Information boards provided</option>
+                                <option value="no">No information boards</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Information Boards</label>
+                        <input type="number" name="infoBoardCount" placeholder="e.g., 5">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Multi-language Signage Requirements</label>
+                        <textarea name="multiLanguageSignage" rows="2"
+                            placeholder="List languages required for signage (e.g., English, Arabic, French)..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 24: AFTER-HOURS & OVERNIGHT SECURITY -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">24</span>
+                        <span>After-Hours & Overnight Security</span>
+                    </div>
+                    <p class="section-desc">Security arrangements for after-hours and overnight periods</p>
+
+                    <div class="form-group">
+                        <label>Overnight Security Arrangements</label>
+                        <div class="select-wrapper">
+                            <select name="overnightSecurity" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="yes">Yes - Overnight security team</option>
+                                <option value="no">No - Not required (single day event)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Overnight Security Personnel</label>
+                        <input type="number" name="overnightSecurityCount" placeholder="e.g., 4">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Equipment Storage Security</label>
+                        <div class="select-wrapper">
+                            <select name="equipmentStorage" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="secure">Yes - Secure storage/lockup</option>
+                                <option value="monitored">Monitored by security</option>
+                                <option value="no">No special security</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Site Access Control After Hours</label>
+                        <div class="select-wrapper">
+                            <select name="afterHoursAccess" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="restricted">Restricted - Security-controlled access</option>
+                                <option value="open">Open access</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 25: ADDITIONAL INFORMATION -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">25</span>
                         <span>Additional Information</span>
                     </div>
                     <p class="section-desc">Any other relevant details</p>
-                    
+
                     <div class="form-group">
                         <label>Previous Safety Incidents (if any)</label>
-                        <textarea name="previousIncidents" placeholder="Describe any relevant incidents from previous events and lessons learned..."></textarea>
+                        <textarea name="previousIncidents"
+                            placeholder="Describe any relevant incidents from previous events and lessons learned..."></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Special Considerations or Requirements</label>
-                        <textarea name="specialConsiderations" placeholder="Include accessibility requirements, cultural sensitivities, VIP provisions, etc..."></textarea>
+                        <textarea name="specialConsiderations"
+                            placeholder="Include accessibility requirements, cultural sensitivities, VIP provisions, etc..."></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Specific Areas of Concern</label>
-                        <textarea name="areasOfConcern" placeholder="What safety aspects are you most concerned about for this event?"></textarea>
+                        <textarea name="areasOfConcern"
+                            placeholder="What safety aspects are you most concerned about for this event?"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Additional Comments or Questions</label>
-                        <textarea name="additionalComments" placeholder="Any other information you'd like to provide..."></textarea>
+                        <textarea name="additionalComments"
+                            placeholder="Any other information you'd like to provide..."></textarea>
                     </div>
                 </div>
-                
+
                 <!-- SUBMIT -->
                 <div style="text-align: center; margin-top: 40px;">
                     <button type="submit" class="btn btn-submit">
@@ -1255,7 +2196,7 @@
             </form>
         </div>
     </div>
-    
+
     <script>
         /**
          * EMAILJS SETUP INSTRUCTIONS:
@@ -1288,19 +2229,19 @@
         const EMAILJS_SERVICE_ID = 'service_0rkbt9s';  // EmailJS Service ID
         const EMAILJS_TEMPLATE_ID = 'template_6cd847j';  // EmailJS Template ID
         const EMAILJS_PUBLIC_KEY = 'wkRpnIaNL7HHzVTy-';  // EmailJS Public Key
-        
+
         // Initialize EmailJS (only if configured)
-        (function(){
+        (function () {
             if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
                 emailjs.init(EMAILJS_PUBLIC_KEY);
             }
         })();
-        
+
         // Progress bar update
         const form = document.getElementById('esmpForm');
         const progressBar = document.getElementById('progressBar');
         const sections = document.querySelectorAll('.section');
-        
+
         function updateProgress() {
             const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
             let filled = 0;
@@ -1317,10 +2258,10 @@
             const percentage = (filled / inputs.length) * 100;
             progressBar.style.width = percentage + '%';
         }
-        
+
         form.addEventListener('input', updateProgress);
         form.addEventListener('change', updateProgress);
-        
+
         // Helper function to format field labels
         function formatLabel(key) {
             return key
@@ -1328,7 +2269,7 @@
                 .replace(/^./, str => str.toUpperCase())
                 .trim();
         }
-        
+
         // Helper function to format values
         function formatValue(value) {
             if (Array.isArray(value)) {
@@ -1336,15 +2277,15 @@
             }
             return value || 'Not provided';
         }
-        
+
         // Form submission
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             // Collect form data
             const formData = new FormData(form);
             const data = {};
-            
+
             // Handle regular inputs
             for (let [key, value] of formData.entries()) {
                 if (data[key]) {
@@ -1357,20 +2298,20 @@
                     data[key] = value;
                 }
             }
-            
+
             // Handle checkboxes that weren't checked
             const checkboxes = form.querySelectorAll('input[type="checkbox"]');
             const checkedGroups = new Set();
             checkboxes.forEach(cb => {
                 if (cb.checked) checkedGroups.add(cb.name);
             });
-            
+
             checkboxes.forEach(cb => {
                 if (!checkedGroups.has(cb.name)) {
                     data[cb.name] = [];
                 }
             });
-            
+
             // Format email content
             let emailContent = '═══════════════════════════════════════════════════\n';
             emailContent += '  EVENT SAFETY MANAGEMENT PLAN - CLIENT RESPONSES\n';
@@ -1380,7 +2321,7 @@
             emailContent += `Company: ${data.companyName || 'Not specified'}\n`;
             emailContent += `Contact: ${data.contactPerson || 'Not specified'} (${data.email || 'No email'})\n`;
             emailContent += '\n═══════════════════════════════════════════════════\n\n';
-            
+
             // Group data by sections for better readability
             const sections = {
                 'Company & Event Information': ['companyName', 'contactPerson', 'contactTitle', 'email', 'phone', 'eventName', 'eventDate', 'eventEndDate', 'eventType', 'eventDescription'],
@@ -1393,95 +2334,109 @@
                 'Contractors & Suppliers': ['securityCompany', 'medicalProvider', 'techSuppliers', 'otherContractors'],
                 'Emergency Management': ['nearestHospital', 'hospitalDistance', 'ambulance', 'firstAidStations', 'emergencyEquip', 'evacuationDrills'],
                 'Compliance & Insurance': ['publicLiability', 'liabilityCoverage', 'policyNumber', 'permits', 'oshadCompliant'],
+                'Communication & Coordination': ['radioCount', 'radioChannels', 'communicationSystems', 'mobileCoverage', 'emergencyContactList'],
+                'Crowd Management & Entry Control': ['entryPoints', 'exitPoints', 'screeningProcedures', 'ticketSystem', 'vipEntryProcedures', 'queuingSystem', 'lostFound'],
+                'Fire Safety Details': ['fireDetection', 'fireSuppression', 'fireExtinguisherCount', 'extinguisherTypes', 'fireAssemblyPoints', 'fireWardens', 'fireWardenCount', 'hotWorkPermits'],
+                'Weather Monitoring & Outdoor Considerations': ['eventLocationType', 'weatherMonitoring', 'weatherContingency', 'sunProtection', 'windSpeedLimits', 'rainProvisions', 'dustStormProcedures'],
+                'Load-In/Load-Out Procedures': ['buildUpStartDate', 'buildUpDays', 'loadInTimes', 'breakDownStartDate', 'heavyMachinery', 'loadInRoutes', 'buildSecurity'],
+                'Environmental & Waste Management': ['wasteManagement', 'recycling', 'toiletRatio', 'toiletCount', 'accessibleToilets', 'waterSupply', 'greaseDisposal'],
+                'Accessibility Beyond Parking': ['wheelchairRoutes', 'accessibilityFeatures', 'accessibleSeating'],
+                'Event Timeline & Scheduling': ['eventSchedule', 'peakAttendanceTimes', 'specialActivities', 'rehearsalDates'],
+                'Security Operations': ['securityDeployment', 'cctvCoverage', 'restrictedAreas', 'backstageSecurity', 'assetProtection'],
+                'Media & Press Management': ['mediaAccreditation', 'pressAreaLocation', 'photoRestrictions', 'socialMediaMonitoring'],
+                'Child Protection & Safeguarding': ['childProtectionPolicy', 'backgroundChecks', 'lostChildProcedures', 'childSupervision', 'ageAppropriateZones'],
+                'Noise Management': ['noiseMonitoring', 'noiseComplaintProcedures', 'neighborNotification', 'soundCurfew'],
+                'Signage & Wayfinding': ['exitSignage', 'directionalSignage', 'infoBoards', 'infoBoardCount', 'multiLanguageSignage'],
+                'After-Hours & Overnight Security': ['overnightSecurity', 'overnightSecurityCount', 'equipmentStorage', 'afterHoursAccess'],
                 'Additional Information': ['previousIncidents', 'specialConsiderations', 'areasOfConcern', 'additionalComments']
             };
-            
+
             for (const [sectionTitle, fields] of Object.entries(sections)) {
                 emailContent += `\n${sectionTitle}\n`;
                 emailContent += '─'.repeat(50) + '\n';
                 let hasData = false;
-                
+
                 fields.forEach(field => {
                     if (data[field] !== undefined && data[field] !== '' && (!Array.isArray(data[field]) || data[field].length > 0)) {
                         emailContent += `${formatLabel(field)}: ${formatValue(data[field])}\n`;
                         hasData = true;
                     }
                 });
-                
+
                 if (!hasData) {
                     emailContent += 'No data provided for this section.\n';
                 }
                 emailContent += '\n';
             }
-            
+
             // Prepare EmailJS parameters - Using same format as accident report form
             const templateParams = {
                 to_email: 'emryys93@gmail.com',  // Email address to receive submissions
                 subject: `New ESMP Questionnaire Submission - ${data.eventName || 'Unnamed Event'}`,
                 message: emailContent
             };
-            
+
             // Send email via EmailJS
             try {
                 // Check if EmailJS is loaded
                 if (typeof emailjs === 'undefined') {
                     throw new Error('EmailJS library is not loaded. Please refresh the page.');
                 }
-                
+
                 // Validate configuration
                 if (!EMAILJS_SERVICE_ID || EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID') {
                     throw new Error('EmailJS Service ID is not configured.');
                 }
-                
+
                 if (!EMAILJS_TEMPLATE_ID || EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
                     throw new Error('EmailJS Template ID is not configured.');
                 }
-                
+
                 if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
                     throw new Error('EmailJS Public Key is not configured.');
                 }
-                
+
                 // Send email
                 console.log('Sending email via EmailJS...');
                 const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
                 console.log('Email sent successfully via EmailJS:', response);
-                
+
             } catch (error) {
                 console.error('EmailJS error:', error);
                 const errorMsg = error.text || error.message || 'Unknown error';
                 alert(`Error submitting form: ${errorMsg}\n\nYour data will still be downloaded locally. Please check your EmailJS configuration or contact support.`);
             }
-            
+
             // Create downloadable JSON
             const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
             link.download = `ESMP_Questionnaire_${data.companyName || 'Client'}_${new Date().toISOString().split('T')[0]}.json`;
             link.click();
-            
+
             // Show success message
             const successAlert = document.getElementById('successAlert');
-            successAlert.querySelector('div').innerHTML = 
+            successAlert.querySelector('div').innerHTML =
                 '<strong>Success!</strong> Your questionnaire has been submitted via email and downloaded locally.';
             successAlert.style.display = 'flex';
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
             // Also create a readable text version
             setTimeout(() => {
                 let textContent = '═══════════════════════════════════════════════════\n';
                 textContent += '  EVENT SAFETY MANAGEMENT PLAN - CLIENT RESPONSES\n';
                 textContent += '═══════════════════════════════════════════════════\n\n';
                 textContent += `Generated: ${new Date().toLocaleString()}\n\n`;
-                
+
                 for (let [key, value] of Object.entries(data)) {
                     const label = formatLabel(key);
                     const valueStr = formatValue(value);
                     textContent += `${label}:\n  ${valueStr}\n\n`;
                 }
-                
-                const textBlob = new Blob([textContent], {type: 'text/plain'});
+
+                const textBlob = new Blob([textContent], { type: 'text/plain' });
                 const textUrl = URL.createObjectURL(textBlob);
                 const textLink = document.createElement('a');
                 textLink.href = textUrl;
@@ -1489,9 +2444,10 @@
                 textLink.click();
             }, 500);
         });
-        
+
         // Initial progress check
         updateProgress();
     </script>
 </body>
+
 </html>
