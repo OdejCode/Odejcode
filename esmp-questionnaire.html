@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Safety Management Plan - Client Questionnaire</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            color: #1f2937;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-number {
+            background: #2563eb;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-desc {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .required {
+            color: #ef4444;
+            margin-left: 3px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .checkbox-item:hover,
+        .radio-item:hover {
+            background: #f3f4f6;
+        }
+        
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .dynamic-list {
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+            padding: 15px;
+            background: white;
+        }
+        
+        .list-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .list-item input {
+            flex: 1;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-add {
+            background: #10b981;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-add:hover {
+            background: #059669;
+        }
+        
+        .btn-remove {
+            background: #ef4444;
+            color: white;
+            padding: 8px 12px;
+        }
+        
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+        
+        .alert-info {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            color: #1e40af;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+            display: none;
+        }
+        
+        .subsection {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .subsection-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Event Safety Management Plan</h1>
+            <p>Universal Event Safety Questionnaire - All Event Types</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="content">
+            <div class="alert alert-info">
+                <span style="font-size: 24px;">ℹ️</span>
+                <div>
+                    <strong>Instructions:</strong> Please complete all sections thoroughly. This questionnaire is applicable to all event types including concerts, festivals, exhibitions, corporate events, sporting events, and more. Fields marked with <span class="required">*</span> are mandatory. Your responses will be used to generate a comprehensive Event Safety Management Plan tailored to your specific event requirements.
+                </div>
+            </div>
+            
+            <div class="alert alert-success" id="successAlert">
+                <span style="font-size: 24px;">✅</span>
+                <div>
+                    <strong>Success!</strong> Your responses have been saved. Click the download button to get your data.
+                </div>
+            </div>
+            
+            <form id="esmpForm">
+                
+                <!-- SECTION 1: COMPANY & EVENT BASIC INFO -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">1</span>
+                        <span>Company & Event Information</span>
+                    </div>
+                    <p class="section-desc">General information about your organization and event</p>
+                    
+                    <div class="form-group">
+                        <label>Company/Organization Name <span class="required">*</span></label>
+                        <input type="text" name="companyName" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Primary Contact Person <span class="required">*</span></label>
+                            <input type="text" name="contactPerson" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Position/Title <span class="required">*</span></label>
+                            <input type="text" name="contactTitle" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input type="tel" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Name <span class="required">*</span></label>
+                        <input type="text" name="eventName" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Event Date(s) <span class="required">*</span></label>
+                            <input type="date" name="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Date (if multi-day event)</label>
+                            <input type="date" name="eventEndDate">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Type <span class="required">*</span></label>
+                        <select name="eventType" required>
+                            <option value="">-- Select Event Type --</option>
+                            <option value="concert">Concert/Music Event</option>
+                            <option value="festival">Festival/Fair</option>
+                            <option value="exhibition">Exhibition/Trade Show</option>
+                            <option value="conference">Conference/Seminar</option>
+                            <option value="sporting">Sporting Event</option>
+                            <option value="corporate">Corporate Event</option>
+                            <option value="theater">Theater/Performance</option>
+                            <option value="immersive">Immersive Experience</option>
+                            <option value="wedding">Wedding/Private Party</option>
+                            <option value="religious">Religious Gathering</option>
+                            <option value="charity">Charity/Fundraising Event</option>
+                            <option value="product">Product Launch</option>
+                            <option value="outdoor">Outdoor Event/Picnic</option>
+                            <option value="parade">Parade/March</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Brief Event Description <span class="required">*</span></label>
+                        <textarea name="eventDescription" required placeholder="Describe what your event involves, key activities, and the overall experience..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SECTION 2: VENUE INFORMATION -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">2</span>
+                        <span>Venue Information</span>
+                    </div>
+                    <p class="section-desc">Details about the event location and facilities</p>
+                    
+                    <div class="form-group">
+                        <label>Venue Name <span class="required">*</span></label>
+                        <input type="text" name="venueName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Full Venue Address <span class="required">*</span></label>
+                        <textarea name="venueAddress" required rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Venue Type <span class="required">*</span></label>
+                        <select name="venueType" required>
+                            <option value="">-- Select Venue Type --</option>
+                            <option value="indoor">Indoor Venue</option>
+                            <option value="outdoor">Outdoor Venue</option>
+                            <option value="mixed">Mixed (Indoor & Outdoor)</option>
+                            <option value="temporary">Temporary Structure/Marquee</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Total Venue Area (sq meters)</label>
+                            <input type="number" name="venueArea" placeholder="e.g., 500">
+                        </div>
+                        <div class="form-group">
+                            <label>Ceiling Height (meters)</label>
+                            <input type="number" name="ceilingHeight" step="0.1" placeholder="e.g., 4.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Does the venue have existing safety systems? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="fireDetection">
+                                Fire Detection System
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="fireSuppression">
+                                Fire Suppression/Sprinklers
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="emergencyLighting">
+                                Emergency Lighting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="exitSigns">
+                                Emergency Exit Signs
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="hvac">
+                                HVAC/Ventilation System
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="cctv">
+                                CCTV/Security Cameras
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="safetySystem" value="none">
+                                None - Temporary structure
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Number of Emergency Exits <span class="required">*</span></label>
+                            <input type="number" name="emergencyExits" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Assembly Points <span class="required">*</span></label>
+                            <input type="number" name="assemblyPoints" required min="1">
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <div class="subsection-title">Temporary Structures (if applicable)</div>
+                        
+                        <div class="form-group">
+                            <label>Will you be using temporary structures?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="tents">
+                                    Tents/Marquees
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="stages">
+                                    Stages/Platforms
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="scaffolding">
+                                    Scaffolding/Towers
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="barriers">
+                                    Barriers/Fencing
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="containers">
+                                    Shipping Containers
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="tempStructures" value="none">
+                                    None
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Structural Engineering Certificates Available?</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="structuralCerts" value="yes">
+                                    Yes - All structures certified
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="structuralCerts" value="partial">
+                                    Some structures certified
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="structuralCerts" value="no">
+                                    No - Need assistance
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="structuralCerts" value="na">
+                                    N/A - No temporary structures
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 3: CAPACITY & ATTENDANCE -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">3</span>
+                        <span>Capacity & Attendance</span>
+                    </div>
+                    <p class="section-desc">Expected attendance and crowd management details</p>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Maximum Venue Capacity <span class="required">*</span></label>
+                            <input type="number" name="maxCapacity" required>
+                            <p class="help-text">Maximum number of people allowed in the venue at one time</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Total Attendance <span class="required">*</span></label>
+                            <input type="number" name="expectedAttendance" required>
+                            <p class="help-text">Total number of guests expected throughout the event</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Expected Audience Profile <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="children">
+                                Children (under 13)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="teens">
+                                Teenagers (13-17)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="adults">
+                                Adults (18-65)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="seniors">
+                                Senior Citizens (65+)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="families">
+                                Family Groups
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="international">
+                                International Visitors
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="vip">
+                                VIP/High-profile Guests
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="mobility">
+                                Guests with Mobility Impairments
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audienceProfile" value="sensory">
+                                Guests with Sensory Sensitivities
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Minimum Age Requirement (if any)</label>
+                        <input type="number" name="minAge" placeholder="e.g., 13">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Format <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="sessionFormat" value="continuous" required>
+                                Continuous (guests arrive/leave freely during operating hours)
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="sessionFormat" value="timed" required>
+                                Timed Sessions (specific entry times/waves)
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="sessionFormat" value="single" required>
+                                Single Event (one start/end time for all)
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="sessionFormat" value="multiday" required>
+                                Multi-day (ongoing over several days)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Event Duration (hours)</label>
+                            <input type="number" name="sessionDuration" step="0.5" placeholder="e.g., 8">
+                            <p class="help-text">Total hours the event runs per day</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Average Guest Stay Duration (hours)</label>
+                            <input type="number" name="guestDuration" step="0.25" placeholder="e.g., 2.5">
+                            <p class="help-text">How long typical guest stays</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 4: TRANSPORTATION & PARKING -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">4</span>
+                        <span>Transportation & Parking</span>
+                    </div>
+                    <p class="section-desc">Access and parking arrangements for the event</p>
+                    
+                    <div class="form-group">
+                        <label>Parking Provision <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="parking" value="onsite" required>
+                                On-site parking available
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="parking" value="offsite" required>
+                                Off-site parking with shuttle service
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="parking" value="public" required>
+                                Public parking/Street parking only
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="parking" value="none" required>
+                                No parking - Public transport/Walk-in only
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Parking Spaces Available</label>
+                        <input type="number" name="parkingSpaces" placeholder="e.g., 500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Accessible Parking Spaces</label>
+                        <input type="number" name="accessibleParking" placeholder="e.g., 20">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Transportation Options</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="privateVehicle">
+                                Private vehicles
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="publicTransport">
+                                Public transport access
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="shuttle">
+                                Shuttle bus service
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="taxi">
+                                Taxi/Ride-share drop-off
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="coach">
+                                Coach/Tour bus parking
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="transport" value="pedestrian">
+                                Pedestrian access only
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Traffic Management Plan in Place?</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="trafficPlan" value="yes">
+                                Yes - Approved by authorities
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="trafficPlan" value="developing">
+                                In development
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="trafficPlan" value="no">
+                                No - Need assistance
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="trafficPlan" value="na">
+                                N/A - Not required
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 5: HAZARD IDENTIFICATION -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">5</span>
+                        <span>Hazard Identification & Risk Factors</span>
+                    </div>
+                    <p class="section-desc">Identify potential hazards specific to your event</p>
+                    
+                    <div class="form-group">
+                        <label>Will your event involve any of the following? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="crowds">
+                                Large crowds / High density areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="darkness">
+                                Low lighting / Night event
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="strobes">
+                                Strobe lights / Flashing effects
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="loudNoise">
+                                Loud music / Amplified sound
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="fog">
+                                Fog / Haze / Smoke effects
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="pyro">
+                                Pyrotechnics / Fireworks
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="heights">
+                                Elevated stages / Platforms
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="water">
+                                Water features / Swimming areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="vehicles">
+                                Vehicles / Moving equipment
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="amusements">
+                                Amusement rides / Inflatables
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="animals">
+                                Animals / Livestock
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="weather">
+                                Outdoor weather exposure
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="alcohol">
+                                Alcohol service
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="food">
+                                Food service / Catering
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="children">
+                                Children's activities / Play areas
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="hazards" value="camping">
+                                Overnight camping / Accommodation
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Additional Hazards or Concerns</label>
+                        <textarea name="additionalHazards" placeholder="Describe any other potential risks or safety concerns specific to your event..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SECTION 6: TECHNICAL REQUIREMENTS -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">6</span>
+                        <span>Technical Requirements</span>
+                    </div>
+                    <p class="section-desc">Technical systems and equipment for your event</p>
+                    
+                    <div class="form-group">
+                        <label>Technical Equipment Required</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="standard">
+                                Standard lighting only
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="theatrical">
+                                Stage/Theatrical lighting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="led">
+                                LED displays/Video screens
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="decorative">
+                                Decorative/Festival lighting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="laser">
+                                Laser effects/Light shows
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="lighting" value="projection">
+                                Projection mapping/Video projection
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Audio/Sound Systems</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="none">
+                                No amplified sound
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="pa">
+                                Public address (PA) system/Announcements
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="background">
+                                Background music/Ambient audio
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="concert">
+                                Concert sound system (high volume)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="surround">
+                                Surround sound/Multi-zone audio
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="live">
+                                Live music performance
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="audio" value="dj">
+                                DJ equipment
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Maximum Sound Level (dB)</label>
+                        <input type="number" name="maxSoundLevel" placeholder="e.g., 95">
+                        <p class="help-text">Recommended maximum: 95dB(A) continuous, 110dB(A) peak</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Power Requirements</label>
+                        <input type="text" name="powerRequirements" placeholder="e.g., 100kVA, 3-phase supply">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Control/Command Center <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="controlRoom" value="dedicated" required>
+                                Yes - Dedicated control room/command center
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="controlRoom" value="mobile" required>
+                                Mobile control station
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="controlRoom" value="none" required>
+                                No - Management from event floor
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 7: STAFFING & ROLES -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">7</span>
+                        <span>Staffing & Team Structure</span>
+                    </div>
+                    <p class="section-desc">Information about your event staff and their roles</p>
+                    
+                    <div class="form-group">
+                        <label>Total Number of Staff/Crew <span class="required">*</span></label>
+                        <input type="number" name="totalStaff" required>
+                    </div>
+                    
+                    <div class="subsection">
+                        <div class="subsection-title">Key Personnel</div>
+                        
+                        <div class="form-group">
+                            <label>Event Director/Manager Name</label>
+                            <input type="text" name="eventDirector">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Site/Operations Manager Name</label>
+                            <input type="text" name="siteManager">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Health & Safety Officer Name (if assigned)</label>
+                            <input type="text" name="hseOfficer">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Technical Director Name (if applicable)</label>
+                            <input type="text" name="technicalDirector">
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <div class="subsection-title">Staff Categories & Numbers</div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Event Management/Coordinators</label>
+                                <input type="number" name="managementCount" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Technical Crew (AV, Lighting, etc.)</label>
+                                <input type="number" name="techCrewCount" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Security Personnel/Crowd Control</label>
+                                <input type="number" name="securityCount" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Medical/First Aid Staff</label>
+                                <input type="number" name="medicalCount" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Performers/Entertainers</label>
+                                <input type="number" name="performersCount" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Guest Services/Ushers</label>
+                                <input type="number" name="fohCount" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Food & Beverage Staff</label>
+                                <input type="number" name="fbCount" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Cleaning/Sanitation Staff</label>
+                                <input type="number" name="cleaningCount" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Volunteers</label>
+                                <input type="number" name="volunteersCount" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Other Staff/Contractors</label>
+                                <input type="number" name="otherStaffCount" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 8: CONTRACTORS & SUPPLIERS -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">8</span>
+                        <span>Contractors & Suppliers</span>
+                    </div>
+                    <p class="section-desc">External companies providing services</p>
+                    
+                    <div class="form-group">
+                        <label>Security Company Name</label>
+                        <input type="text" name="securityCompany">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Medical/First Aid Provider Name</label>
+                        <input type="text" name="medicalProvider">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Technical Equipment Supplier(s)</label>
+                        <textarea name="techSuppliers" rows="2" placeholder="List companies providing lighting, sound, effects equipment..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Other Contractors (Catering, Cleaning, etc.)</label>
+                        <textarea name="otherContractors" rows="3" placeholder="List any other contractors and their roles..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SECTION 9: EMERGENCY MANAGEMENT -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">9</span>
+                        <span>Emergency Management</span>
+                    </div>
+                    <p class="section-desc">Emergency response and preparedness</p>
+                    
+                    <div class="form-group">
+                        <label>Nearest Hospital/Medical Facility <span class="required">*</span></label>
+                        <input type="text" name="nearestHospital" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Distance to Hospital (km)</label>
+                        <input type="number" name="hospitalDistance" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Will you have an on-site ambulance? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="ambulance" value="yes" required>
+                                Yes
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="ambulance" value="no" required>
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of First Aid Stations <span class="required">*</span></label>
+                        <input type="number" name="firstAidStations" required min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Emergency Equipment Available</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="emergencyEquip" value="aed">
+                                AED (Automated External Defibrillator)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="emergencyEquip" value="firstAidKits">
+                                First Aid Kits
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="emergencyEquip" value="fireExtinguishers">
+                                Fire Extinguishers
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="emergencyEquip" value="blankets">
+                                Fire Blankets
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="emergencyEquip" value="spineBoards">
+                                Spine Boards/Stretchers
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Have evacuation drills been planned? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="evacuationDrills" value="yes" required>
+                                Yes - Drills scheduled
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="evacuationDrills" value="no" required>
+                                No - Need assistance planning
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 10: COMPLIANCE & INSURANCE -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">10</span>
+                        <span>Compliance & Insurance</span>
+                    </div>
+                    <p class="section-desc">Legal requirements and insurance coverage</p>
+                    
+                    <div class="form-group">
+                        <label>Do you have Public Liability Insurance? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="publicLiability" value="yes" required>
+                                Yes
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="publicLiability" value="no" required>
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Public Liability Coverage Amount (AED)</label>
+                        <input type="text" name="liabilityCoverage" placeholder="e.g., 5,000,000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Insurance Policy Number</label>
+                        <input type="text" name="policyNumber">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Have you obtained necessary permits/licenses? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="entertainment">
+                                Entertainment Event License
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="civilDefense">
+                                Civil Defense Approval
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="building">
+                                Building/Venue Permit
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="food">
+                                Food Service Permit (if applicable)
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="pending">
+                                Applications Pending
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="permits" value="needAssistance">
+                                Need Assistance with Applications
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you OSHAD compliant? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="oshadCompliant" value="yes" required>
+                                Yes - We have OSHAD certification
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="oshadCompliant" value="partial" required>
+                                Partially - Working towards compliance
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="oshadCompliant" value="no" required>
+                                No - Need guidance
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 11: ADDITIONAL INFORMATION -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-number">11</span>
+                        <span>Additional Information</span>
+                    </div>
+                    <p class="section-desc">Any other relevant details</p>
+                    
+                    <div class="form-group">
+                        <label>Previous Safety Incidents (if any)</label>
+                        <textarea name="previousIncidents" placeholder="Describe any relevant incidents from previous events and lessons learned..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Special Considerations or Requirements</label>
+                        <textarea name="specialConsiderations" placeholder="Include accessibility requirements, cultural sensitivities, VIP provisions, etc..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Specific Areas of Concern</label>
+                        <textarea name="areasOfConcern" placeholder="What safety aspects are you most concerned about for this event?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Additional Comments or Questions</label>
+                        <textarea name="additionalComments" placeholder="Any other information you'd like to provide..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- SUBMIT -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <button type="submit" class="btn btn-submit">
+                        📥 Submit Questionnaire & Download Responses
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * EMAILJS SETUP INSTRUCTIONS:
+         * 
+         * 1. Sign up for a free account at https://www.emailjs.com/
+         * 
+         * 2. Create an Email Service:
+         *    - Go to Email Services and add a service (Gmail, Outlook, etc.)
+         *    - Copy your Service ID
+         * 
+         * 3. Create an Email Template:
+         *    - Go to Email Templates and create a new template
+         *    - Recommended template variables to use:
+         *      - {{subject}} - Email subject line
+         *      - {{message}} - Full questionnaire content (formatted text)
+         *      - {{from_name}} - Contact person name
+         *      - {{company_name}} - Company/organization name
+         *      - {{event_name}} - Event name
+         *      - {{contact_email}} - Submitter's email
+         *      - {{contact_phone}} - Submitter's phone
+         *      - {{submission_date}} - Date/time of submission
+         *    - Copy your Template ID
+         * 
+         * 4. Get your Public Key:
+         *    - Go to Account > General in EmailJS dashboard
+         *    - Copy your Public Key
+         * 
+         * 5. Update the three constants below with your values:
+         */
+        const EMAILJS_SERVICE_ID = 'service_0rkbt9s';  // EmailJS Service ID
+        const EMAILJS_TEMPLATE_ID = 'template_6cd847j';  // EmailJS Template ID
+        const EMAILJS_PUBLIC_KEY = 'wkRpnIaNL7HHzVTy-';  // EmailJS Public Key
+        
+        // Initialize EmailJS (only if configured)
+        (function(){
+            if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            }
+        })();
+        
+        // Progress bar update
+        const form = document.getElementById('esmpForm');
+        const progressBar = document.getElementById('progressBar');
+        const sections = document.querySelectorAll('.section');
+        
+        function updateProgress() {
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            let filled = 0;
+            inputs.forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    const name = input.name;
+                    if (document.querySelector(`input[name="${name}"]:checked`)) {
+                        filled++;
+                    }
+                } else if (input.value.trim() !== '') {
+                    filled++;
+                }
+            });
+            const percentage = (filled / inputs.length) * 100;
+            progressBar.style.width = percentage + '%';
+        }
+        
+        form.addEventListener('input', updateProgress);
+        form.addEventListener('change', updateProgress);
+        
+        // Helper function to format field labels
+        function formatLabel(key) {
+            return key
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/^./, str => str.toUpperCase())
+                .trim();
+        }
+        
+        // Helper function to format values
+        function formatValue(value) {
+            if (Array.isArray(value)) {
+                return value.length > 0 ? value.join(', ') : 'None';
+            }
+            return value || 'Not provided';
+        }
+        
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Handle regular inputs
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Handle checkboxes that weren't checked
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            const checkedGroups = new Set();
+            checkboxes.forEach(cb => {
+                if (cb.checked) checkedGroups.add(cb.name);
+            });
+            
+            checkboxes.forEach(cb => {
+                if (!checkedGroups.has(cb.name)) {
+                    data[cb.name] = [];
+                }
+            });
+            
+            // Format email content
+            let emailContent = '═══════════════════════════════════════════════════\n';
+            emailContent += '  EVENT SAFETY MANAGEMENT PLAN - CLIENT RESPONSES\n';
+            emailContent += '═══════════════════════════════════════════════════\n\n';
+            emailContent += `Submission Date: ${new Date().toLocaleString()}\n`;
+            emailContent += `Event: ${data.eventName || 'Not specified'}\n`;
+            emailContent += `Company: ${data.companyName || 'Not specified'}\n`;
+            emailContent += `Contact: ${data.contactPerson || 'Not specified'} (${data.email || 'No email'})\n`;
+            emailContent += '\n═══════════════════════════════════════════════════\n\n';
+            
+            // Group data by sections for better readability
+            const sections = {
+                'Company & Event Information': ['companyName', 'contactPerson', 'contactTitle', 'email', 'phone', 'eventName', 'eventDate', 'eventEndDate', 'eventType', 'eventDescription'],
+                'Venue Information': ['venueName', 'venueAddress', 'venueType', 'venueArea', 'ceilingHeight', 'safetySystem', 'emergencyExits', 'assemblyPoints', 'tempStructures', 'structuralCerts'],
+                'Capacity & Attendance': ['maxCapacity', 'expectedAttendance', 'audienceProfile', 'minAge', 'sessionFormat', 'sessionDuration', 'guestDuration'],
+                'Transportation & Parking': ['parking', 'parkingSpaces', 'accessibleParking', 'transport', 'trafficPlan'],
+                'Hazard Identification': ['hazards', 'additionalHazards'],
+                'Technical Requirements': ['lighting', 'audio', 'maxSoundLevel', 'powerRequirements', 'controlRoom'],
+                'Staffing & Team Structure': ['totalStaff', 'eventDirector', 'siteManager', 'hseOfficer', 'technicalDirector', 'managementCount', 'techCrewCount', 'securityCount', 'medicalCount', 'performersCount', 'fohCount', 'fbCount', 'cleaningCount', 'volunteersCount', 'otherStaffCount'],
+                'Contractors & Suppliers': ['securityCompany', 'medicalProvider', 'techSuppliers', 'otherContractors'],
+                'Emergency Management': ['nearestHospital', 'hospitalDistance', 'ambulance', 'firstAidStations', 'emergencyEquip', 'evacuationDrills'],
+                'Compliance & Insurance': ['publicLiability', 'liabilityCoverage', 'policyNumber', 'permits', 'oshadCompliant'],
+                'Additional Information': ['previousIncidents', 'specialConsiderations', 'areasOfConcern', 'additionalComments']
+            };
+            
+            for (const [sectionTitle, fields] of Object.entries(sections)) {
+                emailContent += `\n${sectionTitle}\n`;
+                emailContent += '─'.repeat(50) + '\n';
+                let hasData = false;
+                
+                fields.forEach(field => {
+                    if (data[field] !== undefined && data[field] !== '' && (!Array.isArray(data[field]) || data[field].length > 0)) {
+                        emailContent += `${formatLabel(field)}: ${formatValue(data[field])}\n`;
+                        hasData = true;
+                    }
+                });
+                
+                if (!hasData) {
+                    emailContent += 'No data provided for this section.\n';
+                }
+                emailContent += '\n';
+            }
+            
+            // Prepare EmailJS parameters - Using same format as accident report form
+            const templateParams = {
+                to_email: 'emryys93@gmail.com',  // Email address to receive submissions
+                subject: `New ESMP Questionnaire Submission - ${data.eventName || 'Unnamed Event'}`,
+                message: emailContent
+            };
+            
+            // Send email via EmailJS
+            try {
+                // Check if EmailJS is loaded
+                if (typeof emailjs === 'undefined') {
+                    throw new Error('EmailJS library is not loaded. Please refresh the page.');
+                }
+                
+                // Validate configuration
+                if (!EMAILJS_SERVICE_ID || EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID') {
+                    throw new Error('EmailJS Service ID is not configured.');
+                }
+                
+                if (!EMAILJS_TEMPLATE_ID || EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
+                    throw new Error('EmailJS Template ID is not configured.');
+                }
+                
+                if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                    throw new Error('EmailJS Public Key is not configured.');
+                }
+                
+                // Send email
+                console.log('Sending email via EmailJS...');
+                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+                console.log('Email sent successfully via EmailJS:', response);
+                
+            } catch (error) {
+                console.error('EmailJS error:', error);
+                const errorMsg = error.text || error.message || 'Unknown error';
+                alert(`Error submitting form: ${errorMsg}\n\nYour data will still be downloaded locally. Please check your EmailJS configuration or contact support.`);
+            }
+            
+            // Create downloadable JSON
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ESMP_Questionnaire_${data.companyName || 'Client'}_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            // Show success message
+            const successAlert = document.getElementById('successAlert');
+            successAlert.querySelector('div').innerHTML = 
+                '<strong>Success!</strong> Your questionnaire has been submitted via email and downloaded locally.';
+            successAlert.style.display = 'flex';
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // Also create a readable text version
+            setTimeout(() => {
+                let textContent = '═══════════════════════════════════════════════════\n';
+                textContent += '  EVENT SAFETY MANAGEMENT PLAN - CLIENT RESPONSES\n';
+                textContent += '═══════════════════════════════════════════════════\n\n';
+                textContent += `Generated: ${new Date().toLocaleString()}\n\n`;
+                
+                for (let [key, value] of Object.entries(data)) {
+                    const label = formatLabel(key);
+                    const valueStr = formatValue(value);
+                    textContent += `${label}:\n  ${valueStr}\n\n`;
+                }
+                
+                const textBlob = new Blob([textContent], {type: 'text/plain'});
+                const textUrl = URL.createObjectURL(textBlob);
+                const textLink = document.createElement('a');
+                textLink.href = textUrl;
+                textLink.download = `ESMP_Questionnaire_${data.companyName || 'Client'}_${new Date().toISOString().split('T')[0]}.txt`;
+                textLink.click();
+            }, 500);
+        });
+        
+        // Initial progress check
+        updateProgress();
+    </script>
+</body>
+</html>
