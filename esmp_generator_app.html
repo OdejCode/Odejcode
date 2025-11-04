@@ -1,0 +1,3241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2563eb">
+    <title>ESMP Generator - Upload Client Responses</title>
+    <meta name="description" content="Generate professional Event Safety Management Plans from client responses">
+    <meta name="author" content="HERO">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <!-- Libraries for file parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Fallback: If CDN fails, show helpful message -->
+    <noscript>
+        <style>
+            body {
+                padding: 40px;
+                text-align: center;
+            }
+
+            .error-box {
+                background: #fee2e2;
+                border: 2px solid #dc2626;
+                padding: 20px;
+                border-radius: 8px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        </style>
+        <div class="error-box">
+            <h1>JavaScript Required</h1>
+            <p>This application requires JavaScript to function. Please enable JavaScript in your browser settings.</p>
+        </div>
+    </noscript>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .upload-section {
+            border: 3px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #f8fafc;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-section.dragover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .upload-section h2 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .upload-section p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .file-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .file-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e0f2fe;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-info p {
+            margin: 5px 0;
+            color: #0c4a6e;
+        }
+
+        .extraction-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .extraction-section.show {
+            display: block;
+        }
+
+        .extracted-data {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .extracted-data h3 {
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .data-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2563eb;
+        }
+
+        .data-item label {
+            font-weight: 600;
+            color: #475569;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .data-item span {
+            color: #1e293b;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        .preview-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .preview-section.show {
+            display: block;
+        }
+
+        .preview-container {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .container {
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .upload-section {
+                padding: 25px 15px;
+                border-width: 2px;
+            }
+
+            .upload-icon {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .upload-section h2 {
+                font-size: 18px;
+            }
+
+            .upload-section p {
+                font-size: 13px;
+            }
+
+            .file-input-button {
+                padding: 14px 24px;
+                font-size: 15px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                font-size: 15px;
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .btn:last-child {
+                margin-bottom: 0;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .extracted-data {
+                max-height: 300px;
+                padding: 15px;
+                font-size: 13px;
+            }
+
+            .data-item {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            .data-item label {
+                font-size: 12px;
+            }
+
+            .preview-container {
+                max-height: 400px;
+                padding: 15px;
+            }
+
+            .preview-container iframe {
+                height: 400px;
+            }
+
+            .alert {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .loading p {
+                font-size: 14px;
+            }
+        }
+
+        /* Android-specific optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 15px 10px;
+            }
+
+            .upload-section {
+                padding: 20px 10px;
+            }
+
+            .upload-icon {
+                font-size: 40px;
+            }
+
+            .file-input-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                /* Minimum touch target size */
+            }
+
+            .file-input-button {
+                min-height: 44px;
+            }
+
+            input[type="file"] {
+                min-height: 44px;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .preview-container {
+                max-height: 300px;
+            }
+
+            .preview-container iframe {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 ESMP Generator</h1>
+            <p>Upload Client Response to Generate Complete Event Safety Management Plan</p>
+            <p style="font-size: 12px; opacity: 0.9; margin-top: 10px;">
+                <strong>📱 Mobile Optimized:</strong> Works perfectly on Android phones! Add to home screen for easy
+                access.
+            </p>
+        </div>
+
+        <div class="content">
+            <div class="alert alert-success" id="successAlert"></div>
+            <div class="alert alert-error" id="errorAlert"></div>
+
+            <!-- File Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <div class="upload-icon">📄</div>
+                <h2>Upload Client Response</h2>
+                <p>Supported formats: TXT, PDF, DOCX (Word)</p>
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" class="file-input" accept=".txt,.pdf,.docx">
+                    <label for="fileInput" class="file-input-button">
+                        Choose File or Drag & Drop
+                    </label>
+                </div>
+                <div class="file-info" id="fileInfo">
+                    <p><strong>File:</strong> <span id="fileName"></span></p>
+                    <p><strong>Type:</strong> <span id="fileType"></span></p>
+                    <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                </div>
+
+                <!-- Logo Upload Section -->
+                <div style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #e5e7eb;">
+                    <h3 style="margin-bottom: 15px; color: #1e40af;">📸 Upload Logos (Optional)</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #4b5563;">Company
+                                Logo</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="companyLogoInput" class="file-input" accept="image/*">
+                                <label for="companyLogoInput" class="file-input-button"
+                                    style="font-size: 13px; padding: 10px 15px;">
+                                    Choose Company Logo
+                                </label>
+                            </div>
+                            <div id="companyLogoPreview" style="margin-top: 10px; display: none;">
+                                <img id="companyLogoImg" src="" alt="Company Logo"
+                                    style="max-width: 150px; max-height: 80px; border: 2px solid #cbd5e1; border-radius: 4px; padding: 5px; background: white;">
+                                <button type="button" onclick="removeLogo('company')"
+                                    style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Remove</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #4b5563;">Project
+                                Logo</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="projectLogoInput" class="file-input" accept="image/*">
+                                <label for="projectLogoInput" class="file-input-button"
+                                    style="font-size: 13px; padding: 10px 15px;">
+                                    Choose Project Logo
+                                </label>
+                            </div>
+                            <div id="projectLogoPreview" style="margin-top: 10px; display: none;">
+                                <img id="projectLogoImg" src="" alt="Project Logo"
+                                    style="max-width: 150px; max-height: 80px; border: 2px solid #cbd5e1; border-radius: 4px; padding: 5px; background: white;">
+                                <button type="button" onclick="removeLogo('project')"
+                                    style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: #6b7280; margin-top: 10px;">💡 Logos will appear in the header of
+                        generated documents. Supported: JPG, PNG, GIF, SVG</p>
+                </div>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Processing file and extracting data...</p>
+            </div>
+
+            <!-- Extraction Preview Section -->
+            <div class="extraction-section" id="extractionSection">
+                <h2>Extracted Information</h2>
+                <div class="extracted-data" id="extractedData"></div>
+                <div class="actions">
+                    <button class="btn btn-primary" id="generateBtn">Generate ESMP Document</button>
+                    <button class="btn btn-primary" id="generateRiskBtn"
+                        style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">Generate Risk
+                        Assessment</button>
+                    <button class="btn btn-primary" id="generateEmergencyBtn"
+                        style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);">Generate Emergency
+                        Management Plan</button>
+                    <button class="btn btn-secondary" id="clearBtn">Clear & Start Over</button>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section" id="previewSection">
+                <h2 id="previewTitle">Generated Document</h2>
+                <div class="preview-container" id="previewContainer"></div>
+                <div class="actions">
+                    <button class="btn btn-primary" id="downloadBtn">Download (HTML)</button>
+                    <button class="btn btn-primary" id="downloadPdfBtn">Download (PDF)</button>
+                    <button class="btn btn-primary" id="printPdfBtn"
+                        style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Open for Print to PDF
+                        (Best Quality)</button>
+                </div>
+                <div
+                    style="margin-top: 15px; padding: 12px; background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 13px; color: #1e40af;">
+                    <strong>💡 Best PDF Quality:</strong> For perfect PDFs, download the HTML file and open it in
+                    Chrome, then press <strong>Ctrl+P</strong> (or <strong>Cmd+P</strong> on Mac) and select "Save as
+                    PDF". This ensures all formatting and colors are preserved perfectly.
+                </div>
+                <div
+                    style="margin-top: 10px; padding: 12px; background: #fff7ed; border-left: 4px solid #f59e0b; border-radius: 4px; font-size: 13px; color: #92400e;">
+                    <strong>⚠️ Note:</strong> Direct PDF download may have limitations. The HTML download + browser
+                    print method always works perfectly!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Register Service Worker for PWA/Offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // Global variables
+        let extractedData = {};
+        let fileContent = '';
+        let generatedESMP = '';
+        let generatedRiskAssessment = '';
+        let generatedEmergencyPlan = '';
+        let currentDocumentType = 'esmp'; // 'esmp', 'risk', 'emergency'
+        let companyLogo = null; // Base64 data URL
+        let projectLogo = null; // Base64 data URL
+
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // File input handling
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const fileInfo = document.getElementById('fileInfo');
+
+        // Drag and drop handlers
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Logo upload handlers
+        document.getElementById('companyLogoInput').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleLogoUpload(e.target.files[0], 'company');
+            }
+        });
+
+        document.getElementById('projectLogoInput').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleLogoUpload(e.target.files[0], 'project');
+            }
+        });
+
+        // Handle logo upload
+        function handleLogoUpload(file, type) {
+            if (!file.type.startsWith('image/')) {
+                showAlert('errorAlert', 'Please upload an image file (JPG, PNG, GIF, SVG)');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const logoData = e.target.result;
+                if (type === 'company') {
+                    companyLogo = logoData;
+                    document.getElementById('companyLogoImg').src = logoData;
+                    document.getElementById('companyLogoPreview').style.display = 'block';
+                } else {
+                    projectLogo = logoData;
+                    document.getElementById('projectLogoImg').src = logoData;
+                    document.getElementById('projectLogoPreview').style.display = 'block';
+                }
+                showAlert('successAlert', `${type === 'company' ? 'Company' : 'Project'} logo uploaded successfully!`);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove logo function
+        window.removeLogo = function (type) {
+            if (type === 'company') {
+                companyLogo = null;
+                document.getElementById('companyLogoInput').value = '';
+                document.getElementById('companyLogoPreview').style.display = 'none';
+            } else {
+                projectLogo = null;
+                document.getElementById('projectLogoInput').value = '';
+                document.getElementById('projectLogoPreview').style.display = 'none';
+            }
+            showAlert('successAlert', `${type === 'company' ? 'Company' : 'Project'} logo removed.`);
+        };
+
+        // File handling function
+        async function handleFile(file) {
+            const fileName = file.name;
+            const fileType = fileName.split('.').pop().toLowerCase();
+            const fileSize = formatFileSize(file.size);
+
+            // Update file info
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileType').textContent = fileType.toUpperCase();
+            document.getElementById('fileSize').textContent = fileSize;
+            fileInfo.classList.add('show');
+
+            // Show loading
+            document.getElementById('loadingSection').classList.add('show');
+            hideAlert('errorAlert');
+            hideAlert('successAlert');
+
+            try {
+                let content = '';
+
+                // Parse file based on type
+                if (fileType === 'txt') {
+                    content = await readTextFile(file);
+                } else if (fileType === 'pdf') {
+                    content = await readPDFFile(file);
+                } else if (fileType === 'docx') {
+                    content = await readWordFile(file);
+                } else {
+                    throw new Error('Unsupported file type. Please upload TXT, PDF, or DOCX files.');
+                }
+
+                fileContent = content;
+                extractedData = extractDataFromContent(content);
+                displayExtractedData(extractedData);
+
+                // Hide loading, show extraction
+                document.getElementById('loadingSection').classList.remove('show');
+                document.getElementById('extractionSection').classList.add('show');
+                showAlert('successAlert', 'File processed successfully! Review the extracted data and click "Generate ESMP Document".');
+
+            } catch (error) {
+                console.error('Error processing file:', error);
+                document.getElementById('loadingSection').classList.remove('show');
+                showAlert('errorAlert', `Error: ${error.message}`);
+            }
+        }
+
+        // File reading functions
+        function readTextFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsText(file);
+            });
+        }
+
+        async function readPDFFile(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let text = '';
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    text += content.items.map(item => item.str).join(' ') + '\n';
+                }
+
+                return text;
+            } catch (error) {
+                throw new Error('Failed to read PDF file: ' + error.message);
+            }
+        }
+
+        async function readWordFile(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer });
+                return result.value;
+            } catch (error) {
+                throw new Error('Failed to read Word file: ' + error.message);
+            }
+        }
+
+        // Data extraction function
+        function extractDataFromContent(content) {
+            const data = {};
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+
+            // Extract event information
+            data.eventName = extractValue(content, ['Event Name', 'event name', 'Event:', 'Event Title']);
+            data.companyName = extractValue(content, ['Company', 'Organization', 'Client', 'Company Name']);
+            data.venueName = extractValue(content, ['Venue', 'Location', 'Venue Name', 'Event Location']);
+            data.venueAddress = extractValue(content, ['Address', 'Venue Address', 'Location Address']);
+            data.eventDate = extractValue(content, ['Event Date', 'Date', 'Event Dates', 'Dates']);
+            data.contactPerson = extractValue(content, ['Contact Person', 'Contact', 'Primary Contact', 'Name']);
+            data.email = extractValue(content, ['Email', 'email', 'E-mail', '@']);
+            data.phone = extractValue(content, ['Phone', 'phone', 'Mobile', 'Tel', 'Telephone']);
+            data.eventType = extractValue(content, ['Event Type', 'Type', 'Category']);
+            data.eventDescription = extractValue(content, ['Description', 'Event Description', 'Overview', 'Details'], true);
+
+            // Extract capacity information
+            data.maxCapacity = extractValue(content, ['Capacity', 'Max Capacity', 'Maximum Capacity', 'Venue Capacity']);
+            data.expectedAttendance = extractValue(content, ['Expected Attendance', 'Attendance', 'Expected Guests', 'Total Attendance']);
+
+            // Extract venue details
+            data.venueType = extractValue(content, ['Venue Type', 'Type of Venue', 'Indoor/Outdoor']);
+            data.emergencyExits = extractValue(content, ['Emergency Exits', 'Exits', 'Number of Exits']);
+            data.assemblyPoints = extractValue(content, ['Assembly Points', 'Assembly Point', 'Evacuation Points']);
+
+            // Extract hazard information
+            data.hazards = extractList(content, ['Hazards', 'Hazard', 'Risks', 'Risk Factors']);
+            data.additionalHazards = extractValue(content, ['Additional Hazards', 'Other Hazards', 'Additional Concerns'], true);
+
+            // Extract technical requirements
+            data.lighting = extractList(content, ['Lighting', 'Light Requirements', 'Lighting Equipment']);
+            data.audio = extractList(content, ['Audio', 'Sound', 'Sound System', 'Audio Equipment']);
+            data.powerRequirements = extractValue(content, ['Power', 'Power Requirements', 'Electrical Requirements']);
+
+            // Extract staffing information
+            data.totalStaff = extractValue(content, ['Total Staff', 'Staff', 'Number of Staff', 'Crew']);
+            data.eventDirector = extractValue(content, ['Event Director', 'Director', 'Event Manager']);
+            data.siteManager = extractValue(content, ['Site Manager', 'Operations Manager', 'Site Operations']);
+
+            // Extract emergency management
+            data.nearestHospital = extractValue(content, ['Hospital', 'Nearest Hospital', 'Medical Facility']);
+            data.hospitalDistance = extractValue(content, ['Hospital Distance', 'Distance to Hospital', 'Distance']);
+            data.ambulance = extractValue(content, ['Ambulance', 'On-site Ambulance', 'Medical Transport']);
+            data.firstAidStations = extractValue(content, ['First Aid Stations', 'First Aid', 'Medical Stations']);
+
+            // Extract compliance information
+            data.publicLiability = extractValue(content, ['Public Liability', 'Insurance', 'Liability Insurance']);
+            data.permits = extractList(content, ['Permits', 'Licenses', 'Approvals', 'Permit']);
+
+            // Extract additional information
+            data.specialConsiderations = extractValue(content, ['Special Considerations', 'Special Requirements', 'Additional Information'], true);
+            data.additionalComments = extractValue(content, ['Comments', 'Additional Comments', 'Notes', 'Remarks'], true);
+
+            // Clean up extracted data
+            Object.keys(data).forEach(key => {
+                if (data[key] === null || data[key] === undefined || data[key] === '') {
+                    data[key] = 'Not specified';
+                }
+            });
+
+            return data;
+        }
+
+        // Helper function to extract values
+        function extractValue(content, patterns, multiline = false) {
+            for (const pattern of patterns) {
+                const regex = new RegExp(`${pattern}[\\s:]*([^\\n]+)`, 'i');
+                const match = content.match(regex);
+                if (match && match[1]) {
+                    return match[1].trim();
+                }
+            }
+
+            // Try multiline extraction if specified
+            if (multiline) {
+                for (const pattern of patterns) {
+                    const regex = new RegExp(`${pattern}[\\s:]*([\\s\\S]*?)(?=\\n\\n|$)`, 'i');
+                    const match = content.match(regex);
+                    if (match && match[1]) {
+                        return match[1].trim();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // Helper function to extract lists
+        function extractList(content, patterns) {
+            for (const pattern of patterns) {
+                const regex = new RegExp(`${pattern}[\\s:]*([^\\n]+)`, 'i');
+                const match = content.match(regex);
+                if (match && match[1]) {
+                    return match[1].trim().split(',').map(item => item.trim()).filter(item => item);
+                }
+            }
+            return [];
+        }
+
+        // Display extracted data
+        function displayExtractedData(data) {
+            const container = document.getElementById('extractedData');
+            container.innerHTML = '<h3>Extracted Information Preview</h3>';
+
+            const sections = {
+                'Event Information': ['eventName', 'companyName', 'eventType', 'eventDate', 'eventDescription'],
+                'Venue Details': ['venueName', 'venueAddress', 'venueType', 'maxCapacity', 'expectedAttendance', 'emergencyExits', 'assemblyPoints'],
+                'Contact Information': ['contactPerson', 'email', 'phone'],
+                'Hazards & Risks': ['hazards', 'additionalHazards'],
+                'Technical Requirements': ['lighting', 'audio', 'powerRequirements'],
+                'Staffing': ['totalStaff', 'eventDirector', 'siteManager'],
+                'Emergency Management': ['nearestHospital', 'hospitalDistance', 'ambulance', 'firstAidStations'],
+                'Compliance': ['publicLiability', 'permits'],
+                'Additional Information': ['specialConsiderations', 'additionalComments']
+            };
+
+            for (const [sectionTitle, fields] of Object.entries(sections)) {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.style.marginBottom = '20px';
+                sectionDiv.style.padding = '15px';
+                sectionDiv.style.background = 'white';
+                sectionDiv.style.borderRadius = '6px';
+
+                const sectionTitleEl = document.createElement('h4');
+                sectionTitleEl.textContent = sectionTitle;
+                sectionTitleEl.style.color = '#2563eb';
+                sectionTitleEl.style.marginBottom = '10px';
+                sectionDiv.appendChild(sectionTitleEl);
+
+                fields.forEach(field => {
+                    if (data[field] && data[field] !== 'Not specified') {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'data-item';
+
+                        const label = document.createElement('label');
+                        label.textContent = formatLabel(field) + ':';
+                        itemDiv.appendChild(label);
+
+                        const value = document.createElement('span');
+                        if (Array.isArray(data[field])) {
+                            value.textContent = data[field].join(', ');
+                        } else {
+                            value.textContent = data[field];
+                        }
+                        itemDiv.appendChild(value);
+
+                        sectionDiv.appendChild(itemDiv);
+                    }
+                });
+
+                container.appendChild(sectionDiv);
+            }
+        }
+
+        // Format label
+        function formatLabel(key) {
+            return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Alert functions
+        function showAlert(id, message) {
+            const alert = document.getElementById(id);
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => hideAlert(id), 5000);
+        }
+
+        function hideAlert(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        // Generate ESMP button
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            currentDocumentType = 'esmp';
+            generateESMP(extractedData);
+        });
+
+        // Generate Risk Assessment button
+        document.getElementById('generateRiskBtn').addEventListener('click', () => {
+            currentDocumentType = 'risk';
+            generateRiskAssessment(extractedData);
+        });
+
+        // Generate Emergency Management Plan button
+        document.getElementById('generateEmergencyBtn').addEventListener('click', () => {
+            currentDocumentType = 'emergency';
+            generateEmergencyManagementPlan(extractedData);
+        });
+
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Download buttons
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            downloadHTML();
+        });
+
+        document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            downloadPDF();
+        });
+
+        document.getElementById('printPdfBtn').addEventListener('click', () => {
+            printToPDF();
+        });
+
+        // Generate ESMP document
+        function generateESMP(data) {
+            document.getElementById('loadingSection').classList.add('show');
+            document.getElementById('extractionSection').classList.remove('show');
+
+            // Generate the ESMP HTML
+            generatedESMP = createESMPDocument(data);
+            displayGeneratedDocument(generatedESMP, 'ESMP Document');
+
+            showAlert('successAlert', 'ESMP document generated successfully!');
+        }
+
+        // Generate Risk Assessment document
+        function generateRiskAssessment(data) {
+            document.getElementById('loadingSection').classList.add('show');
+            document.getElementById('extractionSection').classList.remove('show');
+
+            // Generate the Risk Assessment HTML
+            generatedRiskAssessment = createRiskAssessmentDocument(data);
+            displayGeneratedDocument(generatedRiskAssessment, 'Risk Assessment Document');
+
+            showAlert('successAlert', 'Risk Assessment document generated successfully!');
+        }
+
+        // Generate Emergency Management Plan document
+        function generateEmergencyManagementPlan(data) {
+            document.getElementById('loadingSection').classList.add('show');
+            document.getElementById('extractionSection').classList.remove('show');
+
+            // Generate the Emergency Management Plan HTML
+            generatedEmergencyPlan = createEmergencyManagementPlanDocument(data);
+            displayGeneratedDocument(generatedEmergencyPlan, 'Emergency Management Plan Document');
+
+            showAlert('successAlert', 'Emergency Management Plan document generated successfully!');
+        }
+
+        // Display generated document in preview
+        function displayGeneratedDocument(htmlContent, title) {
+            // Display preview in an iframe for proper rendering
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = '';
+
+            // Create iframe for preview
+            const iframe = document.createElement('iframe');
+            iframe.style.width = '100%';
+            iframe.style.height = '600px';
+            iframe.style.border = '2px solid #e5e7eb';
+            iframe.style.borderRadius = '8px';
+            iframe.style.background = 'white';
+            previewContainer.appendChild(iframe);
+
+            // Write the full HTML document to iframe
+            iframe.contentDocument.open();
+            iframe.contentDocument.write(htmlContent);
+            iframe.contentDocument.close();
+
+            // Update title
+            document.getElementById('previewTitle').textContent = title;
+
+            document.getElementById('loadingSection').classList.remove('show');
+            document.getElementById('previewSection').classList.add('show');
+            document.getElementById('extractionSection').classList.add('show');
+        }
+
+        // Create ESMP document HTML
+        function createESMPDocument(data) {
+            const eventName = data.eventName || 'Event Name';
+            const eventDate = data.eventDate || new Date().toLocaleDateString();
+            const venueName = data.venueName || 'Venue Name';
+            const venueAddress = data.venueAddress || 'Venue Address';
+            const companyName = data.companyName || 'Client Company';
+            const docDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const docRef = `ESMP-${eventName.replace(/\s+/g, '-').toUpperCase()}-v1.0-${new Date().getFullYear()}`;
+
+            return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Safety Management Plan - ${eventName}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 13pt;
+            line-height: 1.6;
+            color: #1f2937;
+            background: white;
+            margin: 0;
+            padding: 0.25cm;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 1.2cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: white;
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .logo-top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-left img {
+            width: 80px;
+            height: auto;
+            max-height: 80px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .logo-top-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-right img {
+            width: 80px;
+            height: auto;
+            max-height: 80px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .main-title {
+            font-size: 26pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 20pt;
+            color: #7c3aed;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px auto;
+            max-width: 90%;
+            border: 2px solid #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .event-details h3 {
+            font-size: 16pt;
+            margin-bottom: 12px;
+            color: #1e3a8a;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #7c3aed;
+            padding-bottom: 8px;
+        }
+
+        .event-details p {
+            margin: 8px 0;
+            font-size: 12pt;
+            line-height: 1.8;
+        }
+
+        .document-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .document-info-left,
+        .document-info-right {
+            flex: 1;
+        }
+
+        .document-info ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .document-info li {
+            margin: 8px 0;
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+
+        .confidentiality {
+            text-align: center;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            padding: 15px;
+            border: 3px solid #fecaca;
+            margin: 25px 0;
+            font-weight: bold;
+            font-size: 14pt;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Section Styles */
+        .section-header {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            margin: 30px 0 15px 0;
+            padding: 12px 20px;
+            border-left: 6px solid #7c3aed;
+            border-radius: 4px;
+            page-break-after: avoid;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subsection-header {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #1e40af;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            margin: 20px 0 10px 0;
+            padding: 10px 15px;
+            border-left: 5px solid #3b82f6;
+            border-radius: 4px;
+            page-break-after: avoid;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        .sub-subsection-header {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0d9488;
+            margin: 15px 0 8px 0;
+            padding: 8px 12px;
+            background: #f0fdfa;
+            border-left: 4px solid #0d9488;
+            border-radius: 3px;
+        }
+
+        /* Content Styles */
+        .content {
+            margin-bottom: 18px;
+            padding: 0 5px;
+        }
+
+        .content p {
+            margin-bottom: 12px;
+            text-align: justify;
+            font-size: 12pt;
+            line-height: 1.8;
+        }
+
+        .content strong {
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .content ul,
+        .content ol {
+            margin: 12px 0 12px 25px;
+            line-height: 1.8;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+            font-size: 12pt;
+        }
+
+        /* Table Styles */
+        .table-container {
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 11pt;
+            border: 2px solid #1e3a8a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #1e3a8a;
+            font-size: 11.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            background: #ffffff;
+            font-size: 11pt;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Highlight Styles */
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .important {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 5px solid #dc2626;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.1);
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.1);
+        }
+
+        /* Page Break Controls */
+        .page-break {
+            page-break-before: always;
+        }
+
+        .no-break {
+            page-break-inside: avoid;
+        }
+
+        /* Footer */
+        .document-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 10pt;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 1.5cm;
+                border: 0.25cm solid #1e3a8a;
+                border-radius: 12px;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: none;
+                margin: 0;
+                padding: 1.2cm;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+            }
+
+            /* Remove page-wrapper - using @page borders instead */
+            .page-wrapper {
+                border: none;
+                padding: 0;
+                margin: 0;
+                page-break-after: auto;
+                page-break-inside: auto;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .section-header,
+            .subsection-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- COVER PAGE -->
+        <div class="header">
+            <div class="logo-top-left">
+                ${companyLogo ? `
+                    <img src="${companyLogo}" alt="Company Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+                ` : `
+                    <div style="width: 80px; height: 80px; border: 2px solid #1e3a8a; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 4px;">
+                        <span style="font-size: 24pt; font-weight: bold; color: #1e3a8a;">HERO</span>
+                    </div>
+                `}
+            </div>
+            ${projectLogo ? `
+            <div class="logo-top-right">
+                <img src="${projectLogo}" alt="Project Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+            </div>
+            ` : ''}
+            <h1 class="main-title">Event Safety Management Plan</h1>
+            <h1 class="main-title" style="font-size: 22pt; margin-top: 5px;">(ESMP)</h1>
+            <h2 class="subtitle">${eventName}</h2>
+            <div class="event-details">
+                <h3>Event Overview</h3>
+                <p><strong>Location:</strong> ${venueName}, ${venueAddress}</p>
+                <p><strong>Event Date:</strong> ${eventDate}</p>
+                <p><strong>Document Reference:</strong> ${docRef}</p>
+                <p><strong>Client:</strong> ${companyName}</p>
+            </div>
+        </div>
+
+        <div class="document-info">
+            <div class="document-info-left">
+                <ul>
+                    <li><strong>Prepared by:</strong> HERO Health & Safety Advisor</li>
+                    <li><strong>Status:</strong> DRAFT</li>
+                </ul>
+            </div>
+            <div class="document-info-right">
+                <ul>
+                    <li><strong>Issue Date:</strong> ${docDate}</li>
+                    <li><strong>Version:</strong> 1.0</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="confidentiality">
+            ⚠️ CONFIDENTIAL DOCUMENT ⚠️<br>
+            <span style="font-size: 12pt; margin-top: 5px; display: block;">Event Safety Management Plan - ${eventName}</span>
+        </div>
+
+        <!-- PAGE 2: DOCUMENT CONTROL -->
+        <div class="page-break"></div>
+        <div class="section-header">Document Control</div>
+
+        <div class="content">
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Issue Date:</strong> ${docDate}</p>
+            <p><strong>Author:</strong> HERO Health & Safety Advisor</p>
+            <p><strong>Review Date:</strong> [To be determined]</p>
+            <p><strong>Status:</strong> Active</p>
+        </div>
+
+        <div class="subsection-header">Version History</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Date</th>
+                        <th>Author</th>
+                        <th>Modifications/Status/Review</th>
+                        <th>Date Released</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.0</td>
+                        <td>${docDate}</td>
+                        <td>HERO HSE Advisor</td>
+                        <td>Initial Draft</td>
+                        <td>${docDate}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <!-- PAGE 3: INTRODUCTION -->
+        <div class="page-break"></div>
+        <div class="section-header">1. INTRODUCTION</div>
+
+        <div class="subsection-header">1.1 Document Purpose</div>
+        <div class="content">
+            <p>This Event Safety Management Plan (ESMP) has been developed to ensure the health, safety, and welfare of all persons attending ${eventName} at ${venueName}. This document outlines the safety strategy, risk management procedures, and emergency response protocols for the event.</p>
+            <p>The plan has been developed in accordance with applicable safety regulations and standards, including UAE Civil Defense requirements and Occupational Safety and Health Administration (OSHA) guidelines.</p>
+        </div>
+
+        <div class="subsection-header">1.2 Event Overview</div>
+        <div class="content">
+            <p><strong>Event Name:</strong> ${eventName}</p>
+            <p><strong>Event Type:</strong> ${data.eventType || 'Not specified'}</p>
+            <p><strong>Event Date(s):</strong> ${eventDate}</p>
+            <p><strong>Venue:</strong> ${venueName}</p>
+            <p><strong>Venue Address:</strong> ${venueAddress}</p>
+            <p><strong>Venue Type:</strong> ${data.venueType || 'Not specified'}</p>
+            <p><strong>Expected Attendance:</strong> ${data.expectedAttendance || 'Not specified'}</p>
+            <p><strong>Maximum Capacity:</strong> ${data.maxCapacity || 'Not specified'}</p>
+            ${data.eventDescription && data.eventDescription !== 'Not specified' ? `<p><strong>Event Description:</strong> ${data.eventDescription}</p>` : ''}
+        </div>
+
+        <div class="subsection-header">1.3 Contact Information</div>
+        <div class="content">
+            <p><strong>Client Company:</strong> ${companyName}</p>
+            <p><strong>Primary Contact:</strong> ${data.contactPerson || 'Not specified'}</p>
+            <p><strong>Email:</strong> ${data.email || 'Not specified'}</p>
+            <p><strong>Phone:</strong> ${data.phone || 'Not specified'}</p>
+        </div>
+
+        </div>
+
+        <!-- PAGE 4: VENUE INFORMATION -->
+        <div class="page-break"></div>
+        <div class="section-header">2. VENUE INFORMATION</div>
+
+        <div class="subsection-header">2.1 Venue Details</div>
+        <div class="content">
+            <p><strong>Venue Name:</strong> ${venueName}</p>
+            <p><strong>Venue Address:</strong> ${venueAddress}</p>
+            <p><strong>Venue Type:</strong> ${data.venueType || 'Not specified'}</p>
+            ${data.maxCapacity ? `<p><strong>Maximum Capacity:</strong> ${data.maxCapacity} persons</p>` : ''}
+            ${data.expectedAttendance ? `<p><strong>Expected Attendance:</strong> ${data.expectedAttendance} persons</p>` : ''}
+        </div>
+
+        <div class="subsection-header">2.2 Emergency Exits and Assembly Points</div>
+        <div class="content">
+            <p><strong>Number of Emergency Exits:</strong> ${data.emergencyExits || 'Not specified'}</p>
+            <p><strong>Number of Assembly Points:</strong> ${data.assemblyPoints || 'Not specified'}</p>
+            <p>All emergency exits are clearly marked and unobstructed. Assembly points are located at safe distances from the venue and are clearly identified with signage.</p>
+        </div>
+
+        </div>
+
+        <!-- PAGE 5: HAZARD IDENTIFICATION AND RISK ASSESSMENT -->
+        <div class="page-break"></div>
+        <div class="section-header">3. HAZARD IDENTIFICATION AND RISK ASSESSMENT</div>
+
+        <div class="subsection-header">3.1 Identified Hazards</div>
+        <div class="content">
+            ${data.hazards && Array.isArray(data.hazards) && data.hazards.length > 0 ? `
+            <p>The following hazards have been identified for this event:</p>
+            <ul>
+                ${data.hazards.map(hazard => `<li>${hazard}</li>`).join('')}
+            </ul>
+            ` : '<p>Hazard identification is ongoing. Regular risk assessments will be conducted throughout the event planning and execution phases.</p>'}
+            ${data.additionalHazards && data.additionalHazards !== 'Not specified' ? `
+            <p><strong>Additional Hazards/Concerns:</strong></p>
+            <p>${data.additionalHazards}</p>
+            ` : ''}
+        </div>
+
+        <div class="subsection-header">3.2 Risk Control Measures</div>
+        <div class="content">
+            <p>Appropriate control measures will be implemented for all identified hazards. These measures include but are not limited to:</p>
+            <ul>
+                <li>Regular safety inspections</li>
+                <li>Staff training and briefings</li>
+                <li>Clear signage and communication</li>
+                <li>Emergency response procedures</li>
+                <li>First aid and medical support</li>
+            </ul>
+        </div>
+
+        </div>
+
+        <!-- PAGE 6: TECHNICAL REQUIREMENTS -->
+        <div class="page-break"></div>
+        <div class="section-header">4. TECHNICAL REQUIREMENTS</div>
+
+        <div class="subsection-header">4.1 Lighting Requirements</div>
+        <div class="content">
+            ${data.lighting && Array.isArray(data.lighting) && data.lighting.length > 0 ? `
+            <p>The following lighting requirements have been identified:</p>
+            <ul>
+                ${data.lighting.map(light => `<li>${light}</li>`).join('')}
+            </ul>
+            ` : '<p>Standard venue lighting will be utilized. Emergency lighting systems are in place and tested regularly.</p>'}
+        </div>
+
+        <div class="subsection-header">4.2 Audio/Sound Requirements</div>
+        <div class="content">
+            ${data.audio && Array.isArray(data.audio) && data.audio.length > 0 ? `
+            <p>The following audio requirements have been identified:</p>
+            <ul>
+                ${data.audio.map(audio => `<li>${audio}</li>`).join('')}
+            </ul>
+            ` : '<p>Standard audio systems will be utilized. Sound levels will be monitored to ensure compliance with local regulations.</p>'}
+        </div>
+
+        ${data.powerRequirements && data.powerRequirements !== 'Not specified' ? `
+        <div class="subsection-header">4.3 Power Requirements</div>
+        <div class="content">
+            <p><strong>Power Requirements:</strong> ${data.powerRequirements}</p>
+            <p>All electrical installations will be inspected and certified by qualified electricians before use.</p>
+        </div>
+        ` : ''}
+
+        </div>
+
+        <!-- PAGE 7: STAFFING AND ORGANIZATION -->
+        <div class="page-break"></div>
+        <div class="section-header">5. STAFFING AND ORGANIZATION</div>
+
+        <div class="subsection-header">5.1 Staffing Structure</div>
+        <div class="content">
+            ${data.totalStaff && data.totalStaff !== 'Not specified' ? `<p><strong>Total Staff/Crew:</strong> ${data.totalStaff}</p>` : ''}
+            ${data.eventDirector && data.eventDirector !== 'Not specified' ? `<p><strong>Event Director:</strong> ${data.eventDirector}</p>` : ''}
+            ${data.siteManager && data.siteManager !== 'Not specified' ? `<p><strong>Site/Operations Manager:</strong> ${data.siteManager}</p>` : ''}
+            <p>All staff members will receive appropriate training and briefings prior to the event. Staff will be clearly identifiable and assigned specific roles and responsibilities.</p>
+        </div>
+
+        </div>
+
+        <!-- PAGE 8: EMERGENCY MANAGEMENT -->
+        <div class="page-break"></div>
+        <div class="section-header">6. EMERGENCY MANAGEMENT</div>
+
+        <div class="subsection-header">6.1 Medical Facilities</div>
+        <div class="content">
+            ${data.nearestHospital && data.nearestHospital !== 'Not specified' ? `
+            <p><strong>Nearest Hospital/Medical Facility:</strong> ${data.nearestHospital}</p>
+            ${data.hospitalDistance && data.hospitalDistance !== 'Not specified' ? `<p><strong>Distance to Hospital:</strong> ${data.hospitalDistance}</p>` : ''}
+            ` : ''}
+            ${data.ambulance && data.ambulance !== 'Not specified' ? `<p><strong>On-site Ambulance:</strong> ${data.ambulance}</p>` : ''}
+            ${data.firstAidStations && data.firstAidStations !== 'Not specified' ? `<p><strong>First Aid Stations:</strong> ${data.firstAidStations}</p>` : ''}
+            <p>First aid stations will be clearly marked and staffed by qualified first aiders. All incidents will be documented and reported as required.</p>
+        </div>
+
+        <div class="subsection-header">6.2 Emergency Procedures</div>
+        <div class="content">
+            <p>In the event of an emergency:</p>
+            <ol>
+                <li>Alert the event control center immediately</li>
+                <li>Follow the evacuation procedures if required</li>
+                <li>Direct attendees to the nearest assembly point</li>
+                <li>Contact emergency services if necessary (999)</li>
+                <li>Provide first aid and medical assistance as needed</li>
+            </ol>
+        </div>
+
+        </div>
+
+        <!-- PAGE 9: COMPLIANCE AND INSURANCE -->
+        <div class="page-break"></div>
+        <div class="section-header">7. COMPLIANCE AND INSURANCE</div>
+
+        <div class="subsection-header">7.1 Insurance</div>
+        <div class="content">
+            ${data.publicLiability && data.publicLiability !== 'Not specified' ? `
+            <p><strong>Public Liability Insurance:</strong> ${data.publicLiability}</p>
+            ` : '<p>Public liability insurance coverage is in place for this event.</p>'}
+        </div>
+
+        <div class="subsection-header">7.2 Permits and Licenses</div>
+        <div class="content">
+            ${data.permits && Array.isArray(data.permits) && data.permits.length > 0 ? `
+            <p>The following permits and licenses are required/obtained:</p>
+            <ul>
+                ${data.permits.map(permit => `<li>${permit}</li>`).join('')}
+            </ul>
+            ` : '<p>All necessary permits and licenses will be obtained prior to the event.</p>'}
+        </div>
+
+        <!-- PAGE 10: ADDITIONAL INFORMATION -->
+        ${(data.specialConsiderations && data.specialConsiderations !== 'Not specified') ||
+                    (data.additionalComments && data.additionalComments !== 'Not specified') ? `
+        <div class="page-break"></div>
+        <div class="section-header">8. ADDITIONAL INFORMATION</div>
+
+        ${data.specialConsiderations && data.specialConsiderations !== 'Not specified' ? `
+        <div class="subsection-header">8.1 Special Considerations</div>
+        <div class="content">
+            <p>${data.specialConsiderations}</p>
+        </div>
+        ` : ''}
+
+        ${data.additionalComments && data.additionalComments !== 'Not specified' ? `
+        <div class="subsection-header">8.2 Additional Comments</div>
+        <div class="content">
+            <p>${data.additionalComments}</p>
+        </div>
+        ` : ''}
+        ` : ''}
+
+        </div>
+
+        <!-- END OF DOCUMENT -->
+        <div class="page-break"></div>
+        <div class="section-header">APPENDICES</div>
+
+        <div class="subsection-header">Appendix A: Contact Directory</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Name</th>
+                        <th>Contact Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Event Director</strong></td>
+                        <td>${data.eventDirector || 'To Be Determined'}</td>
+                        <td>${data.phone || 'To Be Determined'}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Site Manager</strong></td>
+                        <td>${data.siteManager || 'To Be Determined'}</td>
+                        <td>${data.phone || 'To Be Determined'}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Primary Contact</strong></td>
+                        <td>${data.contactPerson || 'To Be Determined'}</td>
+                        <td>${data.email || 'N/A'} | ${data.phone || 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Emergency Services</strong></td>
+                        <td>Police/Fire/Ambulance</td>
+                        <td>999</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HERO Health & Safety</strong></td>
+                        <td>HSE Advisor</td>
+                        <td>Available on-site during event</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="important" style="margin-top: 30px;">
+            <p><strong>Document Validity:</strong></p>
+            <p>All operations, functions, schedules, and requirements within this document are provisional at the time of publication and are subject to change with or without notice.</p>
+            <p>This document remains the property of HERO and must be returned upon request or at the conclusion of the event.</p>
+        </div>
+
+        <div class="document-footer">
+            <div style="border-top: 2px solid #1e3a8a; padding-top: 15px; margin-top: 30px;">
+                <p style="font-size: 12pt; font-weight: bold; color: #1e3a8a; margin-bottom: 10px;">--- End of Document ---</p>
+                <p style="font-size: 11pt; color: #6b7280;">This Event Safety Management Plan was generated on ${docDate}</p>
+                <p style="font-size: 10pt; color: #9ca3af; margin-top: 8px;">Document Reference: ${docRef}</p>
+                <p style="font-size: 10pt; color: #9ca3af; margin-top: 15px; border-top: 1px solid #e5e7eb; padding-top: 10px;">
+                    <strong>HERO</strong> - Health, Environment, Risk & Operations<br>
+                    Professional Event Safety Management Services
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+        }
+
+        // Create Risk Assessment document HTML
+        function createRiskAssessmentDocument(data) {
+            const eventName = data.eventName || 'Event Name';
+            const eventDate = data.eventDate || new Date().toLocaleDateString();
+            const venueName = data.venueName || 'Venue Name';
+            const venueAddress = data.venueAddress || 'Venue Address';
+            const companyName = data.companyName || 'Client Company';
+            const docDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const docRef = `RA-${eventName.replace(/\s+/g, '-').toUpperCase()}-v1.0-${new Date().getFullYear()}`;
+
+            // Extract hazards for risk assessment
+            const hazards = data.hazards && Array.isArray(data.hazards) ? data.hazards : [];
+            const additionalHazards = data.additionalHazards && data.additionalHazards !== 'Not specified' ? data.additionalHazards : '';
+
+            return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment - ${eventName}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11.5pt;
+            line-height: 1.35;
+            color: #1f2937;
+            background: white;
+            margin: 0;
+            padding: 0.25cm;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 1.2cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: white;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .logo-top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-left div {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 4px;
+        }
+
+        .logo-top-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-right img {
+            width: 80px;
+            height: auto;
+            max-height: 80px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .main-title {
+            font-size: 22.5pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 16.5pt;
+            color: #7c3aed;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .event-details {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 2px solid #cbd5e1;
+        }
+
+        .event-details h3 {
+            font-size: 13.5pt;
+            margin-bottom: 10px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .event-details p {
+            margin: 5px 0;
+            font-size: 10.5pt;
+        }
+
+        .document-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+
+        .confidentiality {
+            text-align: center;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            padding: 10px;
+            border: 2px solid #fecaca;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .section-header {
+            font-size: 15.5pt;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            margin: 25px 0 12px 0;
+            padding: 10px 15px;
+            border-left: 5px solid #7c3aed;
+            border-radius: 4px;
+            page-break-after: avoid;
+            text-transform: uppercase;
+        }
+
+        .subsection-header {
+            font-size: 13.5pt;
+            font-weight: bold;
+            color: #1e40af;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            margin: 18px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            page-break-after: avoid;
+        }
+
+        .content {
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+            text-align: justify;
+            font-size: 11pt;
+        }
+
+        .content ul, .content ol {
+            margin: 10px 0 10px 20px;
+        }
+
+        .content li {
+            margin-bottom: 5px;
+            font-size: 11pt;
+        }
+
+        .table-container {
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 9.5pt;
+        }
+
+        .risk-extreme {
+            background-color: #dc2626;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .risk-high {
+            background-color: #f59e0b;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .risk-medium {
+            background-color: #fbbf24;
+            color: #1f2937;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .risk-low {
+            background-color: #10b981;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .risk-matrix-table {
+            margin: 15px 0;
+        }
+
+        .risk-matrix-table th {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .risk-matrix-table td {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 2.5cm;
+                border: 0.25cm solid #1e3a8a;
+                border-radius: 12px;
+            }
+
+            .container {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- COVER PAGE -->
+        <div class="header">
+            <div class="logo-top-left">
+                ${companyLogo ? `
+                    <img src="${companyLogo}" alt="Company Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+                ` : `
+                    <div>
+                        <span style="font-size: 20pt; font-weight: bold; color: #1e3a8a;">HERO</span>
+                    </div>
+                `}
+            </div>
+            ${projectLogo ? `
+            <div class="logo-top-right">
+                <img src="${projectLogo}" alt="Project Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+            </div>
+            ` : ''}
+            <h1 class="main-title">Risk Assessment</h1>
+            <h2 class="subtitle">${eventName}</h2>
+            <div class="event-details">
+                <h3>Risk Assessment Document</h3>
+                <p><strong>Location:</strong> ${venueName}, ${venueAddress}</p>
+                <p><strong>Event Date:</strong> ${eventDate}</p>
+                <p><strong>Document Reference:</strong> ${docRef}</p>
+                <p><strong>Prepared by:</strong> HERO Health & Safety Advisor</p>
+            </div>
+        </div>
+
+        <div class="confidentiality">
+            CONFIDENTIAL<br>
+            Risk Assessment - ${eventName}
+        </div>
+
+        <!-- PAGE 2: DOCUMENT CONTROL -->
+        <div class="page-break"></div>
+        <div class="section-header">Document Control</div>
+        <div class="content">
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Issue Date:</strong> ${docDate}</p>
+            <p><strong>Author:</strong> HERO Health & Safety Advisor</p>
+            <p><strong>Review Date:</strong> [To be determined]</p>
+            <p><strong>Status:</strong> Active</p>
+        </div>
+        </div>
+
+        <!-- PAGE 3: INTRODUCTION -->
+        <div class="page-break"></div>
+        <div class="section-header">1. INTRODUCTION</div>
+
+        <div class="subsection-header">1.1 Purpose</div>
+        <div class="content">
+            <p>This comprehensive risk assessment has been prepared for ${eventName} at ${venueName}.</p>
+            <p>The purpose of this document is to:</p>
+            <ul>
+                <li>Identify all significant hazards associated with the event operations</li>
+                <li>Assess the risks associated with each identified hazard</li>
+                <li>Determine appropriate control measures to reduce risks to acceptable levels</li>
+                <li>Provide a systematic framework for ongoing risk management</li>
+                <li>Demonstrate compliance with applicable safety regulations</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">1.2 Scope</div>
+        <div class="content">
+            <p><strong>Geographic Scope:</strong> Entire event venue and surrounding areas</p>
+            <p><strong>Operational Scope:</strong> Build, installation, live operations, and breakdown phases</p>
+            <p><strong>Personnel Scope:</strong> All staff, contractors, guests, and emergency services personnel</p>
+        </div>
+
+        <div class="subsection-header">1.3 Methodology</div>
+        <div class="content">
+            <p>This risk assessment has been conducted using the following systematic approach:</p>
+            <ul>
+                <li><strong>Hazard Identification:</strong> Site inspections, activity analysis, consultation with experts</li>
+                <li><strong>Risk Evaluation:</strong> Using a standardized risk matrix combining likelihood and severity</li>
+                <li><strong>Control Measures:</strong> Following hierarchy of control (elimination, substitution, engineering, administrative, PPE)</li>
+                <li><strong>Residual Risk Assessment:</strong> Evaluation of remaining risk after implementation of controls</li>
+                <li><strong>Review and Monitoring:</strong> Regular review schedule and update procedures</li>
+            </ul>
+        </div>
+
+        <!-- PAGE 4: RISK MATRIX -->
+        <div class="page-break"></div>
+        <div class="section-header">2. RISK ASSESSMENT MATRIX</div>
+
+        <div class="subsection-header">2.1 Risk Matrix Definition</div>
+        <div class="content">
+            <p>The following risk matrix is used to evaluate and classify all identified risks. Risk ratings are determined by combining the likelihood of an incident occurring with the severity of consequences should it occur.</p>
+        </div>
+
+        <div class="subsection-header">2.2 Risk Matrix</div>
+        <div class="table-container">
+            <table class="risk-matrix-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Likelihood</th>
+                        <th colspan="5">Severity</th>
+                    </tr>
+                    <tr>
+                        <th>Negligible (1)</th>
+                        <th>Minor (2)</th>
+                        <th>Moderate (3)</th>
+                        <th>Major (4)</th>
+                        <th>Catastrophic (5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Almost Certain (5)</strong></td>
+                        <td class="risk-medium">5<br>MEDIUM</td>
+                        <td class="risk-high">10<br>HIGH</td>
+                        <td class="risk-extreme">15<br>EXTREME</td>
+                        <td class="risk-extreme">20<br>EXTREME</td>
+                        <td class="risk-extreme">25<br>EXTREME</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Likely (4)</strong></td>
+                        <td class="risk-low">4<br>LOW</td>
+                        <td class="risk-medium">8<br>MEDIUM</td>
+                        <td class="risk-high">12<br>HIGH</td>
+                        <td class="risk-extreme">16<br>EXTREME</td>
+                        <td class="risk-extreme">20<br>EXTREME</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Possible (3)</strong></td>
+                        <td class="risk-low">3<br>LOW</td>
+                        <td class="risk-low">6<br>LOW</td>
+                        <td class="risk-medium">9<br>MEDIUM</td>
+                        <td class="risk-high">12<br>HIGH</td>
+                        <td class="risk-extreme">15<br>EXTREME</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Unlikely (2)</strong></td>
+                        <td class="risk-low">2<br>LOW</td>
+                        <td class="risk-low">4<br>LOW</td>
+                        <td class="risk-low">6<br>LOW</td>
+                        <td class="risk-medium">8<br>MEDIUM</td>
+                        <td class="risk-high">10<br>HIGH</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rare (1)</strong></td>
+                        <td class="risk-low">1<br>LOW</td>
+                        <td class="risk-low">2<br>LOW</td>
+                        <td class="risk-low">3<br>LOW</td>
+                        <td class="risk-low">4<br>LOW</td>
+                        <td class="risk-medium">5<br>MEDIUM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="subsection-header">2.3 Risk Rating Interpretation</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Risk Rating</th>
+                        <th>Level</th>
+                        <th>Action Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="risk-extreme">15-25</td>
+                        <td class="risk-extreme">EXTREME</td>
+                        <td>Immediate action required. Activity must not proceed until risk is reduced.</td>
+                    </tr>
+                    <tr>
+                        <td class="risk-high">10-14</td>
+                        <td class="risk-high">HIGH</td>
+                        <td>Urgent action required. Senior management attention needed.</td>
+                    </tr>
+                    <tr>
+                        <td class="risk-medium">5-9</td>
+                        <td class="risk-medium">MEDIUM</td>
+                        <td>Action required. Management responsibility to address.</td>
+                    </tr>
+                    <tr>
+                        <td class="risk-low">1-4</td>
+                        <td class="risk-low">LOW</td>
+                        <td>Acceptable risk. Monitor and review periodically.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGE 5: IDENTIFIED HAZARDS -->
+        <div class="page-break"></div>
+        <div class="section-header">3. IDENTIFIED HAZARDS AND RISK ASSESSMENT</div>
+
+        <div class="subsection-header">3.1 Fire and Evacuation Risks</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hazard Description</th>
+                        <th>Who is at Risk</th>
+                        <th>Existing Controls</th>
+                        <th>LxS</th>
+                        <th>Risk Rating</th>
+                        <th>Additional Controls Required</th>
+                        <th>Residual Risk</th>
+                        <th>Responsible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fire from electrical equipment/systems failure</td>
+                        <td>All guests, staff in affected area</td>
+                        <td>Regular electrical inspections, certified equipment, circuit breakers</td>
+                        <td>3x4</td>
+                        <td class="risk-extreme">12</td>
+                        <td>Daily inspection logs, fire detection systems, automatic fire suppression, emergency lighting</td>
+                        <td class="risk-medium">6</td>
+                        <td>Technical Director</td>
+                    </tr>
+                    <tr>
+                        <td>Guest disorientation during fire evacuation</td>
+                        <td>All guests, vulnerable persons</td>
+                        <td>Emergency lighting, exit signage, staff presence</td>
+                        <td>4x4</td>
+                        <td class="risk-extreme">16</td>
+                        <td>Illuminated exit signage, emergency lighting tests, staff evacuation training, clear pathways</td>
+                        <td class="risk-medium">8</td>
+                        <td>Site Manager</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        ${hazards.length > 0 || additionalHazards ? `
+        <div class="subsection-header">3.2 Additional Identified Hazards</div>
+        <div class="content">
+            ${hazards.length > 0 ? `
+            <p><strong>Hazards identified for this event:</strong></p>
+            <ul>
+                ${hazards.map(hazard => `<li>${hazard}</li>`).join('')}
+            </ul>
+            ` : ''}
+            ${additionalHazards ? `
+            <p><strong>Additional Hazards/Concerns:</strong></p>
+            <p>${additionalHazards}</p>
+            ` : ''}
+            <p>All identified hazards require appropriate risk assessment and control measures. Regular monitoring and review will be conducted throughout the event lifecycle.</p>
+        </div>
+        ` : ''}
+
+        <div class="subsection-header">3.3 Risk Control Measures</div>
+        <div class="content">
+            <p>Appropriate control measures will be implemented for all identified hazards following the hierarchy of control:</p>
+            <ol>
+                <li><strong>Elimination:</strong> Remove the hazard completely</li>
+                <li><strong>Substitution:</strong> Replace with a safer alternative</li>
+                <li><strong>Engineering Controls:</strong> Isolate people from the hazard</li>
+                <li><strong>Administrative Controls:</strong> Change the way people work</li>
+                <li><strong>Personal Protective Equipment:</strong> Protect the worker with PPE</li>
+            </ol>
+        </div>
+
+        <!-- PAGE 6: SUMMARY -->
+        <div class="page-break"></div>
+        <div class="section-header">4. RISK SUMMARY</div>
+
+        <div class="subsection-header">4.1 Risk Summary</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Risk Category</th>
+                        <th>Number of Hazards</th>
+                        <th>Highest Risk Rating</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fire and Evacuation</td>
+                        <td>2</td>
+                        <td class="risk-extreme">16 (EXTREME)</td>
+                        <td>Controls Required</td>
+                    </tr>
+                    <tr>
+                        <td>Other Hazards</td>
+                        <td>${hazards.length > 0 ? hazards.length : 'Multiple'}</td>
+                        <td>To be assessed</td>
+                        <td>Ongoing Assessment</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="subsection-header">4.2 Priority Action Items</div>
+        <div class="content">
+            <p>The following actions are required to address identified risks:</p>
+            <ul>
+                <li>Implement fire detection and suppression systems</li>
+                <li>Establish clear evacuation procedures and routes</li>
+                <li>Conduct regular safety inspections</li>
+                <li>Provide staff training on emergency procedures</li>
+                <li>Maintain emergency equipment and systems</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">4.3 Review Schedule</div>
+        <div class="content">
+            <p>This risk assessment will be reviewed:</p>
+            <ul>
+                <li>Before event commencement</li>
+                <li>After any incident or near-miss</li>
+                <li>When significant changes occur to operations</li>
+                <li>Annually or as required by regulations</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center; color: #6b7280; font-size: 10pt;">
+            <p>--- End of Document ---</p>
+            <p>This Risk Assessment was generated on ${docDate}</p>
+            <p style="margin-top: 8px;">Document Reference: ${docRef}</p>
+        </div>
+    </div>
+</body>
+</html>`;
+        }
+
+        // Create Emergency Management Plan document HTML
+        function createEmergencyManagementPlanDocument(data) {
+            const eventName = data.eventName || 'Event Name';
+            const eventDate = data.eventDate || new Date().toLocaleDateString();
+            const venueName = data.venueName || 'Venue Name';
+            const venueAddress = data.venueAddress || 'Venue Address';
+            const companyName = data.companyName || 'Client Company';
+            const docDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const docRef = `EMP-${eventName.replace(/\s+/g, '-').toUpperCase()}-v1.0-${new Date().getFullYear()}`;
+
+            const nearestHospital = data.nearestHospital && data.nearestHospital !== 'Not specified' ? data.nearestHospital : 'To be determined';
+            const hospitalDistance = data.hospitalDistance && data.hospitalDistance !== 'Not specified' ? data.hospitalDistance : 'N/A';
+            const ambulance = data.ambulance && data.ambulance !== 'Not specified' ? data.ambulance : 'To be arranged';
+            const firstAidStations = data.firstAidStations && data.firstAidStations !== 'Not specified' ? data.firstAidStations : '1';
+            const emergencyExits = data.emergencyExits && data.emergencyExits !== 'Not specified' ? data.emergencyExits : 'Multiple';
+            const assemblyPoints = data.assemblyPoints && data.assemblyPoints !== 'Not specified' ? data.assemblyPoints : '1';
+
+            return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Management Plan - ${eventName}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 13pt;
+            line-height: 1.35;
+            color: #1f2937;
+            background: white;
+            margin: 0;
+            padding: 0.25cm;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 1.2cm;
+            border: 0.25cm solid #1e3a8a;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: white;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .logo-top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-left div {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 4px;
+        }
+
+        .logo-top-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-top-right img {
+            width: 80px;
+            height: auto;
+            max-height: 80px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .main-title {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 18pt;
+            color: #7c3aed;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .event-details {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 2px solid #cbd5e1;
+        }
+
+        .event-details h3 {
+            font-size: 15pt;
+            margin-bottom: 10px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .event-details p {
+            margin: 5px 0;
+            font-size: 12pt;
+        }
+
+        .confidentiality {
+            text-align: center;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            padding: 10px;
+            border: 2px solid #fecaca;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .section-header {
+            font-size: 17pt;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            margin: 25px 0 12px 0;
+            padding: 12px 20px;
+            border-left: 6px solid #7c3aed;
+            border-radius: 4px;
+            page-break-after: avoid;
+            text-transform: uppercase;
+        }
+
+        .subsection-header {
+            font-size: 15pt;
+            font-weight: bold;
+            color: #1e40af;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            margin: 18px 0 8px 0;
+            padding: 10px 15px;
+            border-left: 5px solid #3b82f6;
+            border-radius: 4px;
+            page-break-after: avoid;
+        }
+
+        .content {
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+            text-align: justify;
+            font-size: 12pt;
+        }
+
+        .content ul, .content ol {
+            margin: 10px 0 10px 20px;
+        }
+
+        .content li {
+            margin-bottom: 5px;
+            font-size: 12pt;
+        }
+
+        .table-container {
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 10.5pt;
+        }
+
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+
+        .status-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .status-amber {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .status-red {
+            background-color: #fef2f2;
+            color: #dc2626;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .important {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 5px solid #dc2626;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 2.5cm;
+                border: 0.25cm solid #1e3a8a;
+                border-radius: 12px;
+            }
+
+            .container {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- COVER PAGE -->
+        <div class="header">
+            <div class="logo-top-left">
+                ${companyLogo ? `
+                    <img src="${companyLogo}" alt="Company Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+                ` : `
+                    <div>
+                        <span style="font-size: 24pt; font-weight: bold; color: #1e3a8a;">HERO</span>
+                    </div>
+                `}
+            </div>
+            ${projectLogo ? `
+            <div class="logo-top-right">
+                <img src="${projectLogo}" alt="Project Logo" style="width: 80px; height: auto; max-height: 80px; object-fit: contain;">
+            </div>
+            ` : ''}
+            <h1 class="main-title">Emergency Management Plan (EMP)</h1>
+            <h2 class="subtitle">${eventName}</h2>
+            <div class="event-details">
+                <h3>Emergency Management Plan</h3>
+                <p><strong>Location:</strong> ${venueName}, ${venueAddress}</p>
+                <p><strong>Event Date:</strong> ${eventDate}</p>
+                <p><strong>Document Reference:</strong> ${docRef}</p>
+            </div>
+        </div>
+
+        <div class="confidentiality">
+            CONFIDENTIAL<br>
+            Emergency Management Plan - ${eventName}
+        </div>
+
+        <!-- PAGE 2: DOCUMENT CONTROL -->
+        <div class="page-break"></div>
+        <div class="section-header">Document Control</div>
+        <div class="content">
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Issue Date:</strong> ${docDate}</p>
+            <p><strong>Author:</strong> HERO Health & Safety Advisor</p>
+            <p><strong>Review Date:</strong> [To be determined]</p>
+            <p><strong>Status:</strong> Active</p>
+        </div>
+        </div>
+
+        <!-- PAGE 3: INTRODUCTION -->
+        <div class="page-break"></div>
+        <div class="section-header">1. INTRODUCTION</div>
+
+        <div class="subsection-header">1.1 Purpose</div>
+        <div class="content">
+            <p>This Emergency Management Plan (EMP) has been developed to ensure the effective management of emergencies that may occur during ${eventName} at ${venueName}.</p>
+            <p>The plan provides procedures and guidelines for:</p>
+            <ul>
+                <li>Emergency response coordination</li>
+                <li>Evacuation procedures</li>
+                <li>Communication protocols</li>
+                <li>Medical response</li>
+                <li>Emergency services liaison</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">1.2 Scope</div>
+        <div class="content">
+            <p>This plan applies to all personnel, contractors, and visitors at ${venueName} during the event period: ${eventDate}.</p>
+            <p>It covers all emergency scenarios including fire, medical emergencies, security incidents, severe weather, and other major incidents.</p>
+        </div>
+
+        <!-- PAGE 4: EMERGENCY CONTACT DIRECTORY -->
+        <div class="page-break"></div>
+        <div class="section-header">2. EMERGENCY CONTACT DIRECTORY</div>
+
+        <div class="subsection-header">2.1 Emergency Services</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Contact Number</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Police</strong></td>
+                        <td>999</td>
+                        <td>Emergency services</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fire & Rescue</strong></td>
+                        <td>999</td>
+                        <td>Emergency services</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ambulance</strong></td>
+                        <td>999</td>
+                        <td>Emergency medical services</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nearest Hospital</strong></td>
+                        <td>${nearestHospital}</td>
+                        <td>Distance: ${hospitalDistance}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="subsection-header">2.2 Event Management Contacts</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Event Director</td>
+                        <td>${data.eventDirector || 'To be determined'}</td>
+                        <td>${data.phone || 'To be determined'}</td>
+                    </tr>
+                    <tr>
+                        <td>Site Manager</td>
+                        <td>${data.siteManager || 'To be determined'}</td>
+                        <td>${data.phone || 'To be determined'}</td>
+                    </tr>
+                    <tr>
+                        <td>Health & Safety Officer</td>
+                        <td>HERO HSE Advisor</td>
+                        <td>Available on-site</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGE 5: EMERGENCY COMMAND STRUCTURE -->
+        <div class="page-break"></div>
+        <div class="section-header">3. EMERGENCY COMMAND STRUCTURE</div>
+
+        <div class="subsection-header">3.1 Command Hierarchy</div>
+        <div class="content">
+            <p>In the event of an emergency, the following command structure will be activated:</p>
+            <ol>
+                <li><strong>Incident Controller:</strong> Event Director or Site Manager</li>
+                <li><strong>Deputy Incident Controller:</strong> Health & Safety Officer</li>
+                <li><strong>Emergency Services Liaison:</strong> Designated staff member</li>
+                <li><strong>Evacuation Coordinator:</strong> Site Manager</li>
+            </ol>
+        </div>
+
+        <div class="subsection-header">3.2 Roles and Responsibilities</div>
+        <div class="content">
+            <p><strong>Incident Controller:</strong></p>
+            <ul>
+                <li>Overall responsibility for emergency response</li>
+                <li>Makes decisions regarding evacuation</li>
+                <li>Coordinates with emergency services</li>
+                <li>Authorizes re-entry after emergency</li>
+            </ul>
+            <p><strong>Evacuation Coordinator:</strong></p>
+            <ul>
+                <li>Oversees evacuation procedures</li>
+                <li>Coordinates evacuation wardens</li>
+                <li>Ensures all areas are cleared</li>
+                <li>Reports to Incident Controller</li>
+            </ul>
+        </div>
+
+        <!-- PAGE 6: EMERGENCY PROCEDURES -->
+        <div class="page-break"></div>
+        <div class="section-header">4. EMERGENCY PROCEDURES</div>
+
+        <div class="subsection-header">4.1 Discovery of Emergency</div>
+        <div class="content">
+            <p>Upon discovery of an emergency:</p>
+            <ol>
+                <li>Assess the situation - do not put yourself at risk</li>
+                <li>Alert others in the immediate area</li>
+                <li>Contact emergency services if required (999)</li>
+                <li>Notify the Incident Controller immediately</li>
+                <li>Follow evacuation procedures if instructed</li>
+            </ol>
+        </div>
+
+        <div class="subsection-header">4.2 Fire Emergency Procedures</div>
+        <div class="content">
+            <p><strong>In case of fire:</strong></p>
+            <ol>
+                <li>Raise the alarm immediately</li>
+                <li>Call 999 for Fire & Rescue</li>
+                <li>Evacuate the area if safe to do so</li>
+                <li>Use fire extinguisher only if safe and trained</li>
+                <li>Close doors behind you to contain fire</li>
+                <li>Proceed to assembly point</li>
+            </ol>
+        </div>
+
+        <div class="subsection-header">4.3 Medical Emergency Procedures</div>
+        <div class="content">
+            <p><strong>In case of medical emergency:</strong></p>
+            <ol>
+                <li>Assess the situation - ensure area is safe</li>
+                <li>Call for first aid assistance</li>
+                <li>Call 999 for ambulance if required</li>
+                <li>Provide first aid if trained and safe to do so</li>
+                <li>Stay with the casualty until help arrives</li>
+                <li>Notify Incident Controller</li>
+            </ol>
+            <p><strong>Medical Facilities:</strong></p>
+            <ul>
+                <li>First Aid Stations: ${firstAidStations}</li>
+                <li>On-site Ambulance: ${ambulance}</li>
+                <li>Nearest Hospital: ${nearestHospital}</li>
+            </ul>
+        </div>
+
+        <!-- PAGE 7: EVACUATION PROCEDURES -->
+        <div class="page-break"></div>
+        <div class="section-header">5. EVACUATION PROCEDURES</div>
+
+        <div class="subsection-header">5.1 Evacuation Decision</div>
+        <div class="content">
+            <p>The decision to evacuate will be made by the Incident Controller based on:</p>
+            <ul>
+                <li>Nature and severity of the emergency</li>
+                <li>Advice from emergency services</li>
+                <li>Risk to personnel and visitors</li>
+                <li>Location and spread of hazard</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">5.2 Evacuation Routes</div>
+        <div class="content">
+            <p><strong>Emergency Exits:</strong> ${emergencyExits} clearly marked exits</p>
+            <p><strong>Assembly Points:</strong> ${assemblyPoints} designated assembly point(s) located at safe distances from the venue</p>
+            <p>All evacuation routes are clearly marked with illuminated exit signs and emergency lighting.</p>
+        </div>
+
+        <div class="subsection-header">5.3 Evacuation Procedures</div>
+        <div class="content">
+            <p>When evacuation is ordered:</p>
+            <ol>
+                <li>Remain calm and follow instructions</li>
+                <li>Proceed to nearest emergency exit</li>
+                <li>Do not use elevators</li>
+                <li>Assist others if safe to do so</li>
+                <li>Go directly to assembly point</li>
+                <li>Wait for further instructions</li>
+                <li>Do not re-enter until authorized</li>
+            </ol>
+        </div>
+
+        <div class="subsection-header">5.4 Persons with Disabilities</div>
+        <div class="content">
+            <p>Special assistance will be provided for persons with disabilities:</p>
+            <ul>
+                <li>Evacuation chairs available at designated locations</li>
+                <li>Trained staff assigned to assist</li>
+                <li>Refuge areas available for temporary shelter</li>
+                <li>Priority assistance from emergency services</li>
+            </ul>
+        </div>
+
+        <!-- PAGE 8: COMMUNICATION SYSTEMS -->
+        <div class="page-break"></div>
+        <div class="section-header">6. COMMUNICATION SYSTEMS</div>
+
+        <div class="subsection-header">6.1 Communication Methods</div>
+        <div class="content">
+            <p>The following communication systems are available:</p>
+            <ul>
+                <li><strong>Public Address System:</strong> For announcements and instructions</li>
+                <li><strong>Two-way Radios:</strong> For staff communication</li>
+                <li><strong>Mobile Phones:</strong> For emergency contact</li>
+                <li><strong>Emergency Alarms:</strong> Fire alarms and evacuation alerts</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">6.2 Emergency Codes</div>
+        <div class="content">
+            <p>Standard emergency codes will be used:</p>
+            <ul>
+                <li><strong>Code Red:</strong> Fire emergency</li>
+                <li><strong>Code Blue:</strong> Medical emergency</li>
+                <li><strong>Code Black:</strong> Security threat</li>
+                <li><strong>Code Orange:</strong> Evacuation</li>
+            </ul>
+        </div>
+
+        <!-- PAGE 9: POST-EMERGENCY PROCEDURES -->
+        <div class="page-break"></div>
+        <div class="section-header">7. POST-EMERGENCY PROCEDURES</div>
+
+        <div class="subsection-header">7.1 Re-entry Authorization</div>
+        <div class="content">
+            <p>Re-entry to the venue will only be authorized by:</p>
+            <ul>
+                <li>Emergency services (if involved)</li>
+                <li>Incident Controller</li>
+                <li>After safety assessment is complete</li>
+            </ul>
+        </div>
+
+        <div class="subsection-header">7.2 Incident Reporting</div>
+        <div class="content">
+            <p>All emergencies must be documented:</p>
+            <ul>
+                <li>Complete incident report form</li>
+                <li>Record details of what occurred</li>
+                <li>Document response actions taken</li>
+                <li>Identify lessons learned</li>
+                <li>Update emergency procedures if needed</li>
+            </ul>
+        </div>
+
+        <div class="important" style="margin-top: 30px;">
+            <p><strong>Important:</strong></p>
+            <p>This Emergency Management Plan must be reviewed regularly and updated as necessary. All staff must be familiar with emergency procedures and participate in regular drills.</p>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center; color: #6b7280; font-size: 10pt;">
+            <p>--- End of Document ---</p>
+            <p>This Emergency Management Plan was generated on ${docDate}</p>
+            <p style="margin-top: 8px;">Document Reference: ${docRef}</p>
+        </div>
+    </div>
+</body>
+</html>`;
+        }
+
+        // Download functions
+        function downloadHTML() {
+            let content = '';
+            let filename = '';
+
+            if (currentDocumentType === 'esmp') {
+                content = generatedESMP;
+                filename = `ESMP_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.html`;
+            } else if (currentDocumentType === 'risk') {
+                content = generatedRiskAssessment;
+                filename = `Risk_Assessment_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.html`;
+            } else if (currentDocumentType === 'emergency') {
+                content = generatedEmergencyPlan;
+                filename = `Emergency_Management_Plan_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.html`;
+            }
+
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function downloadPDF() {
+            const btn = document.getElementById('downloadPdfBtn');
+            btn.disabled = true;
+            btn.textContent = 'Generating PDF...';
+
+            try {
+                let htmlContent = '';
+                let pdfFilename = '';
+
+                if (currentDocumentType === 'esmp') {
+                    htmlContent = generatedESMP;
+                    pdfFilename = `ESMP_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.pdf`;
+                } else if (currentDocumentType === 'risk') {
+                    htmlContent = generatedRiskAssessment;
+                    pdfFilename = `Risk_Assessment_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.pdf`;
+                } else if (currentDocumentType === 'emergency') {
+                    htmlContent = generatedEmergencyPlan;
+                    pdfFilename = `Emergency_Management_Plan_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}.pdf`;
+                }
+
+                // Create a temporary container with the full HTML document
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.width = '21cm';
+                tempContainer.style.background = 'white';
+
+                // Parse the generated HTML and extract body content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                // Get the container div from the generated document
+                const esmpContainer = doc.querySelector('.container');
+
+                if (!esmpContainer) {
+                    throw new Error('Could not find ESMP content');
+                }
+
+                // Clone and append to temp container with all styles
+                const clonedContent = esmpContainer.cloneNode(true);
+
+                // Copy all styles from the original document
+                const styleSheets = doc.querySelectorAll('style');
+                styleSheets.forEach(style => {
+                    const styleClone = style.cloneNode(true);
+                    tempContainer.appendChild(styleClone);
+                });
+
+                tempContainer.appendChild(clonedContent);
+                document.body.appendChild(tempContainer);
+
+                // Wait for rendering and fonts to load - increased wait time
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Ensure content is visible for html2canvas
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '0';
+                tempContainer.style.top = '0';
+                tempContainer.style.zIndex = '9999';
+                tempContainer.style.visibility = 'visible';
+                tempContainer.style.opacity = '1';
+
+                const opt = {
+                    margin: [0.3, 0.3, 0.3, 0.3],
+                    filename: pdfFilename,
+                    image: { type: 'jpeg', quality: 0.95 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        letterRendering: true,
+                        logging: true, // Enable logging to debug
+                        windowWidth: tempContainer.scrollWidth || 794,
+                        windowHeight: tempContainer.scrollHeight || 1123,
+                        backgroundColor: '#ffffff',
+                        removeContainer: false,
+                        allowTaint: false,
+                        scrollX: 0,
+                        scrollY: 0
+                    },
+                    jsPDF: {
+                        unit: 'cm',
+                        format: 'a4',
+                        orientation: 'portrait',
+                        compress: true
+                    },
+                    pagebreak: {
+                        mode: ['css', 'legacy'],
+                        avoid: ['.no-break', '.page-break', 'table']
+                    }
+                };
+
+                console.log('Starting PDF generation...', {
+                    container: tempContainer,
+                    width: tempContainer.scrollWidth,
+                    height: tempContainer.scrollHeight,
+                    content: tempContainer.innerHTML.substring(0, 200)
+                });
+
+                await html2pdf().set(opt).from(tempContainer).save();
+
+                // Clean up
+                document.body.removeChild(tempContainer);
+
+                showAlert('successAlert', 'PDF downloaded successfully!');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showAlert('errorAlert', `PDF generation failed. Please download the HTML file and use Chrome's Print > Save as PDF (Ctrl+P or Cmd+P) for perfect results. This method always works!`);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Download (PDF)';
+            }
+        }
+
+        // Print to PDF - Opens in new window for browser print (Most Reliable)
+        function printToPDF() {
+            let htmlContent = '';
+            let filename = '';
+
+            if (currentDocumentType === 'esmp') {
+                htmlContent = generatedESMP;
+                filename = `ESMP_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}`;
+            } else if (currentDocumentType === 'risk') {
+                htmlContent = generatedRiskAssessment;
+                filename = `Risk_Assessment_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}`;
+            } else if (currentDocumentType === 'emergency') {
+                htmlContent = generatedEmergencyPlan;
+                filename = `Emergency_Management_Plan_${extractedData.eventName || 'Event'}_${new Date().toISOString().split('T')[0]}`;
+            }
+
+            if (!htmlContent) {
+                showAlert('errorAlert', 'No document generated. Please generate a document first.');
+                return;
+            }
+
+            // Open in new window
+            const printWindow = window.open('', '_blank', 'width=1200,height=800');
+
+            if (!printWindow) {
+                showAlert('errorAlert', 'Popup blocked! Please allow popups for this site and try again.');
+                return;
+            }
+
+            printWindow.document.open();
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+
+            // Wait for content to fully load, then show print dialog
+            const checkLoaded = setInterval(() => {
+                if (printWindow.document.readyState === 'complete') {
+                    clearInterval(checkLoaded);
+                    setTimeout(() => {
+                        printWindow.focus();
+                        printWindow.print();
+                        showAlert('successAlert', 'Print dialog opened! Select "Save as PDF" as the destination for perfect quality.');
+                    }, 1000);
+                }
+            }, 100);
+
+            // Fallback after 5 seconds
+            setTimeout(() => {
+                clearInterval(checkLoaded);
+                if (printWindow && !printWindow.closed) {
+                    printWindow.focus();
+                    printWindow.print();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
